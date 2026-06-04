@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LifeSci Hackathon — Idea Explorer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root {
+  --bg: #0a0f0d;
+  --bg2: #0f1710;
+  --bg3: #141f16;
+  --surface: #1a2a1d;
+  --surface2: #1f3323;
+  --border: rgba(80,200,100,0.12);
+  --border2: rgba(80,200,100,0.22);
+  --green: #4ade80;
+  --green2: #22c55e;
+  --green-dim: rgba(74,222,128,0.08);
+  --green-dim2: rgba(74,222,128,0.15);
+  --amber: #fbbf24;
+  --coral: #f97316;
+  --blue: #60a5fa;
+  --pink: #f472b6;
+  --text: #e8f5e9;
+  --text2: #a5c4a8;
+  --text3: #617a63;
+  --serif: 'DM Serif Display', Georgia, serif;
+  --sans: 'Sora', sans-serif;
+  --mono: 'DM Mono', monospace;
+  --radius: 10px;
+  --radius-lg: 16px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(74,222,128,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(74,222,128,0.025) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+.wrapper {
+  position: relative;
+  z-index: 1;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+}
+.header { margin-bottom: 3rem; animation: fadeUp 0.6s ease both; }
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--green);
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.eyebrow::before { content: ''; display: block; width: 24px; height: 1px; background: var(--green); }
+h1 {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--text);
+  margin-bottom: 0.75rem;
+}
+h1 em { font-style: italic; color: var(--green); }
+.header-sub { font-size: 14px; color: var(--text3); max-width: 520px; }
+.tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 2.5rem;
+  border-bottom: 1px solid var(--border);
+  animation: fadeUp 0.6s 0.1s ease both;
+}
+.tab {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 10px 20px;
+  border: none;
+  background: transparent;
+  color: var(--text3);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: all 0.2s;
+}
+.tab:hover { color: var(--text2); }
+.tab.active { color: var(--green); border-bottom-color: var(--green); }
+.sec-head { margin-bottom: 1.5rem; }
+.sec-title { font-family: var(--serif); font-size: 1.3rem; font-weight: 400; color: var(--text); margin-bottom: 4px; }
+.sec-sub { font-size: 12px; color: var(--text3); }
+.pain-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 10px; margin-bottom: 2rem; }
+.pain-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.pain-card::after { content: ''; position: absolute; inset: 0; background: var(--green-dim); opacity: 0; transition: opacity 0.2s; }
+.pain-card:hover::after { opacity: 1; }
+.pain-card.selected { border-color: var(--green2); background: var(--surface2); }
+.pain-card.selected::after { opacity: 1; }
+.pain-ico {
+  width: 32px; height: 32px;
+  background: var(--green-dim2);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 10px;
+  color: var(--green);
+  font-size: 14px;
+}
+.pain-label { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 6px; line-height: 1.3; }
+.pain-desc { font-size: 11px; color: var(--text3); line-height: 1.55; margin-bottom: 10px; }
+.badge { display: inline-block; font-family: var(--mono); font-size: 10px; padding: 2px 8px; border-radius: 20px; }
+.badge-crit { background: rgba(249,115,22,0.15); color: var(--coral); border: 1px solid rgba(249,115,22,0.25); }
+.badge-high { background: rgba(251,191,36,0.12); color: var(--amber); border: 1px solid rgba(251,191,36,0.2); }
+.gap-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 2rem; }
+.gap-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.1rem 1.25rem; }
+.gap-tool { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 6px; }
+.gap-what { font-size: 12px; color: var(--text2); line-height: 1.55; margin-bottom: 8px; }
+.gap-line { font-family: var(--mono); font-size: 11px; color: var(--green); padding: 6px 10px; background: var(--green-dim); border-radius: 6px; border-left: 2px solid var(--green2); }
+.filter-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1.25rem; }
+.filter-btn {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 5px 14px; border-radius: 20px; border: 1px solid var(--border2);
+  background: transparent; color: var(--text3); cursor: pointer; transition: all 0.2s;
+}
+.filter-btn:hover { color: var(--text2); border-color: var(--green2); }
+.filter-btn.on { background: var(--green-dim2); color: var(--green); border-color: var(--green2); }
+.ideas-list { display: flex; flex-direction: column; gap: 10px; }
+.idea-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 1.25rem;
+  cursor: pointer; transition: all 0.2s; position: relative;
+}
+.idea-card:hover { border-color: var(--border2); background: var(--surface2); }
+.idea-card.featured { border-color: rgba(74,222,128,0.35); }
+.idea-card.open { border-color: var(--green2); }
+.idea-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.idea-title { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 6px; line-height: 1.4; }
+.tag-row { display: flex; gap: 5px; flex-wrap: wrap; }
+.tag { font-family: var(--mono); font-size: 9px; letter-spacing: 0.06em; text-transform: uppercase; padding: 2px 8px; border-radius: 20px; border: 1px solid; }
+.tag-agentic { color: var(--blue); border-color: rgba(96,165,250,0.3); background: rgba(96,165,250,0.08); }
+.tag-rag { color: var(--green); border-color: rgba(74,222,128,0.25); background: var(--green-dim); }
+.tag-voice { color: var(--amber); border-color: rgba(251,191,36,0.25); background: rgba(251,191,36,0.08); }
+.tag-novel { color: var(--pink); border-color: rgba(244,114,182,0.25); background: rgba(244,114,182,0.08); }
+.top-badge { font-family: var(--mono); font-size: 9px; letter-spacing: 0.05em; padding: 3px 10px; border-radius: 20px; background: rgba(251,191,36,0.1); color: var(--amber); border: 1px solid rgba(251,191,36,0.25); white-space: nowrap; flex-shrink: 0; }
+.idea-desc { font-size: 12px; color: var(--text2); line-height: 1.6; margin: 10px 0 8px; }
+.idea-gap-line { font-size: 11px; color: var(--text3); font-style: italic; display: flex; gap: 6px; align-items: flex-start; }
+.idea-gap-line::before { content: '→'; color: var(--green); flex-shrink: 0; font-style: normal; }
+.chevron { font-size: 12px; color: var(--text3); transition: transform 0.2s; margin-top: 4px; }
+.idea-card.open .chevron { transform: rotate(180deg); }
+.detail-panel { margin-top: 14px; border-top: 1px solid var(--border); padding-top: 14px; display: none; }
+.idea-card.open .detail-panel { display: block; }
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+@media (max-width: 600px) { .detail-grid { grid-template-columns: 1fr; } }
+.detail-block { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; }
+.detail-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); margin-bottom: 6px; }
+.detail-val { font-size: 12px; color: var(--text2); line-height: 1.6; }
+.detail-stack { font-family: var(--mono); font-size: 11px; color: var(--green); background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; margin-bottom: 14px; line-height: 1.8; }
+.detail-stack .label { font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); display: block; margin-bottom: 6px; font-family: var(--mono); }
+.cta-btn { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; padding: 9px 18px; border-radius: var(--radius); border: 1px solid var(--green2); background: var(--green-dim2); color: var(--green); cursor: pointer; transition: all 0.2s; }
+.cta-btn:hover { background: rgba(74,222,128,0.2); }
+.nav-btn { display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; padding: 8px 16px; border-radius: var(--radius); border: 1px solid var(--border2); background: transparent; color: var(--text3); cursor: pointer; transition: all 0.2s; margin-top: 1.5rem; }
+.nav-btn:hover { border-color: var(--green2); color: var(--green); }
+.pane { animation: fadeUp 0.3s ease both; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+.hidden { display: none; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 3px; }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header class="header">
+    <div class="eyebrow">Cognizant Internal Hackathon &middot; 2025</div>
+    <h1>Find your <em>winning</em><br>LifeSci idea</h1>
+    <p class="header-sub">A pain-point-first framework for Agentic AI, Gen AI &amp; Automation in Life Science, Pharma &amp; Healthcare.</p>
+  </header>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('pains',this)">01 &middot; Pain points</button>
+    <button class="tab" onclick="showTab('gaps',this)">02 &middot; What exists &amp; gaps</button>
+    <button class="tab" onclick="showTab('ideas',this)">03 &middot; Novel ideas</button>
+  </div>
+
+  <!-- TAB 1 -->
+  <div id="tab-pains" class="pane">
+    <div class="sec-head">
+      <div class="sec-title">Where does the industry bleed?</div>
+      <div class="sec-sub">The best hackathon ideas start with a real, painful problem. Select any area to jump to ideas.</div>
+    </div>
+    <div class="pain-grid">
+      <div class="pain-card" onclick="selectPain(this)">
+        <div class="pain-ico"><i class="fa-solid fa-flask-vial"></i></div>
+        <div class="pain-label">Clinical trials</div>
+        <div class="pain-desc">Patient recruitment eats 30–40% of timelines. Protocol deviations are discovered weeks late. Drop-outs kill statistical power.</div>
+        <span class="badge badge-crit">Critical</span>
+      </div>
+      <div class="pain-card" onclick="selectPain(this)">
+        <div class="pain-ico"><i class="fa-solid fa-triangle-exclamation"></i></div>
+        <div class="pain-label">Adverse event detection</div>
+        <div class="pain-desc">Teams manually review millions of case reports. Signal detection lags weeks. Rare polypharmacy interactions are invisible across siloed systems.</div>
+        <span class="badge badge-crit">Critical</span>
+      </div>
+      <div class="pain-card" onclick="selectPain(this)">
+        <div class="pain-ico"><i class="fa-solid fa-database"></i></div>
+        <div class="pain-label">Real-world evidence</div>
+        <div class="pain-desc">EHRs are unstructured. Linking claims + labs + imaging is a 6-month data engineering project. Insights arrive after the decision window closes.</div>
+        <span class="badge badge-crit">Critical</span>
+      </div>
+      <div class="pain-card" onclick="selectPain(this)">
+        <div class="pain-ico"><i class="fa-solid fa-file-contract"></i></div>
+        <div class="pain-label">Regulatory submissions</div>
+        <div class="pain-desc">CTD dossiers run 50,000+ pages. Cross-referencing across modules is manual. One missing citation delays approval by months.</div>
+        <span class="badge badge-crit">Critical</span>
+      </div>
+      <div class="pain-card" onclick="selectPain(this)">
+        <div class="pain-ico"><i class="fa-solid fa-heart-pulse"></i></div>
+        <div class="pain-label">Patient adherence</div>
+        <div class="pain-desc">50% of chronic disease patients don't take medications as prescribed. Barriers are personal and contextual — invisible to providers.</div>
+        <span class="badge badge-high">High</span>
+      </div>
+      <div class="pain-card" onclick="selectPain(this)">
+        <div class="pain-ico"><i class="fa-solid fa-stethoscope"></i></div>
+        <div class="pain-label">Rare disease diagnosis</div>
+        <div class="pain-desc">Average time to rare disease diagnosis: 4–8 years. Patients visit 7+ specialists. Criteria live in scattered literature and case reports.</div>
+        <span class="badge badge-crit">Critical</span>
+      </div>
+      <div class="pain-card" onclick="selectPain(this)">
+        <div class="pain-ico"><i class="fa-solid fa-comments"></i></div>
+        <div class="pain-label">Medical affairs / MSL</div>
+        <div class="pain-desc">MSLs answer the same 40 complex questions repeatedly. KOL insight capture is unstructured. Field intelligence doesn't reach HQ.</div>
+        <span class="badge badge-high">High</span>
+      </div>
+      <div class="pain-card" onclick="selectPain(this)">
+        <div class="pain-ico"><i class="fa-solid fa-truck-medical"></i></div>
+        <div class="pain-label">Cold chain / supply</div>
+        <div class="pain-desc">Biologics require precise logistics. Excursion events are found post-delivery. Recalls are slow and imprecise.</div>
+        <span class="badge badge-high">High</span>
+      </div>
+      <div class="pain-card" onclick="selectPain(this)">
+        <div class="pain-ico"><i class="fa-solid fa-headset"></i></div>
+        <div class="pain-label">GxP enterprise IT support</div>
+        <div class="pain-desc">L1 agents handle repetitive resolvable issues manually. In pharma, a locked-out lab analyst can delay batch release. Every unlogged action is a compliance risk.</div>
+        <span class="badge badge-crit">Critical</span>
+      </div>
+    </div>
+    <button class="nav-btn" onclick="showTab('ideas', document.querySelectorAll('.tab')[2])">See all ideas <i class="fa-solid fa-arrow-right"></i></button>
+  </div>
+
+  <!-- TAB 2 -->
+  <div id="tab-gaps" class="pane hidden">
+    <div class="sec-head">
+      <div class="sec-title">What exists — and where it breaks</div>
+      <div class="sec-sub">Existing tools solve 60–70% of the problem. The remaining gap is where your idea lives.</div>
+    </div>
+    <div class="gap-list">
+      <div class="gap-card">
+        <div class="gap-tool">AI literature review tools (Consensus, Elicit, Scite)</div>
+        <div class="gap-what">Search and summarize papers well. But they don't connect literature to a specific patient population, trial design, or drug mechanism. Static, not agentic.</div>
+        <div class="gap-line">Gap &rarr; Can't reason across internal study data + external literature simultaneously. No longitudinal reasoning.</div>
+      </div>
+      <div class="gap-card">
+        <div class="gap-tool">Pharmacovigilance platforms (Oracle Argus, Veeva Vault)</div>
+        <div class="gap-what">Structured case management but purely reactive. Rule-based signal detection. No contextual reasoning over unstructured narrative text in case reports.</div>
+        <div class="gap-line">Gap &rarr; Can't detect emerging signals across multi-modal sources (social, EHRs, literature) in real-time.</div>
+      </div>
+      <div class="gap-card">
+        <div class="gap-tool">Clinical trial management (Medidata, Veeva CTMS)</div>
+        <div class="gap-what">Good at tracking protocol compliance after the fact. Site selection is still largely relationship-driven and retrospective.</div>
+        <div class="gap-line">Gap &rarr; Can't predict protocol deviations before they occur. Recruitment matching is keyword-based, not phenotypic.</div>
+      </div>
+      <div class="gap-card">
+        <div class="gap-tool">Medical chatbots (Babylon, Ada Health)</div>
+        <div class="gap-what">Symptom checkers with decision trees. Not grounded in a patient's actual longitudinal record. No multi-turn reasoning over complex multi-morbidity.</div>
+        <div class="gap-line">Gap &rarr; No agentic behavior — can't retrieve, reconcile, and reason over a full patient history dynamically.</div>
+      </div>
+      <div class="gap-card">
+        <div class="gap-tool">Regulatory writing AI (Regulatory AI, Veeva RIM)</div>
+        <div class="gap-what">Templates and clause libraries. Can draft sections but can't verify internal consistency across a 50,000-page dossier or flag missing cross-references.</div>
+        <div class="gap-line">Gap &rarr; No agent that autonomously audits a full CTD submission for completeness, consistency, and ICH alignment.</div>
+      </div>
+      <div class="gap-card">
+        <div class="gap-tool">AI call center bots (generic IVR + LLM front-ends)</div>
+        <div class="gap-what">Can understand intent and answer FAQs. But they don't execute backend scripts to actually resolve issues, don't do skill-matched escalation, and have no concept of GxP compliance audit trails.</div>
+        <div class="gap-line">Gap &rarr; No system combines AI-first resolution + skill-scored human escalation + sentiment handoff + auto-compliant ServiceNow ticket in a pharma context.</div>
+      </div>
+    </div>
+    <button class="nav-btn" onclick="showTab('ideas', document.querySelectorAll('.tab')[2])">See ideas that fill these gaps <i class="fa-solid fa-arrow-right"></i></button>
+  </div>
+
+  <!-- TAB 3 -->
+  <div id="tab-ideas" class="pane hidden">
+    <div class="sec-head">
+      <div class="sec-title">Novel, buildable ideas</div>
+      <div class="sec-sub">Ranked by originality &times; impact &times; prototype feasibility. Click any card to expand the full breakdown.</div>
+    </div>
+    <div class="filter-row">
+      <button class="filter-btn on" onclick="setFilter(this,'all')">All</button>
+      <button class="filter-btn" onclick="setFilter(this,'agentic')">Agentic</button>
+      <button class="filter-btn" onclick="setFilter(this,'rag')">RAG</button>
+      <button class="filter-btn" onclick="setFilter(this,'voice')">Voice</button>
+    </div>
+    <div class="ideas-list">
+
+      <div class="idea-card featured" data-tags="agentic rag" onclick="toggleIdea(this)">
+        <div class="idea-top">
+          <div>
+            <div class="idea-title">Adverse Signal Hunter &mdash; multi-source pharmacovigilance agent</div>
+            <div class="tag-row">
+              <span class="tag tag-agentic">Agentic</span>
+              <span class="tag tag-rag">RAG</span>
+              <span class="tag tag-novel">Most novel</span>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+            <span class="top-badge">&#127942; Top pick</span>
+            <i class="fa-solid fa-chevron-down chevron"></i>
+          </div>
+        </div>
+        <div class="idea-desc">An autonomous agent that continuously ingests FDA FAERS, MedDRA-coded case reports, EHR narratives, and PubMed signal literature &mdash; triangulating weak signals across sources that no single system sees, detecting rare polypharmacy interactions before they become recalls.</div>
+        <div class="idea-gap-line">Existing tools see one source at a time. This agent reasons across all of them simultaneously.</div>
+        <div class="detail-panel">
+          <div class="detail-grid">
+            <div class="detail-block">
+              <div class="detail-label">Pain point addressed</div>
+              <div class="detail-val">Pharmacovigilance teams miss rare polypharmacy signals because FDA FAERS, EHR narratives, and literature live in separate systems with no cross-source reasoning.</div>
+            </div>
+            <div class="detail-block">
+              <div class="detail-label">Why it's unbuilt</div>
+              <div class="detail-val">Requires real-time multi-source ingestion + semantic search + agent reasoning in a single loop. Previously too compute-expensive. LLM agents make this tractable now.</div>
+            </div>
+            <div class="detail-block">
+              <div class="detail-label">Hackathon demo</div>
+              <div class="detail-val">Ingest 500 FAERS cases + 200 papers on a drug pair. Show the agent surfacing a signal that neither source alone reveals, with a full cited evidence trail.</div>
+            </div>
+            <div class="detail-block">
+              <div class="detail-label">Winning angle</div>
+              <div class="detail-val">Drug recalls cost $1B+. A system that flags a signal 6 weeks earlier with evidence is a quantifiable, board-level ROI story judges can immediately grasp.</div>
+            </div>
+          </div>
+          <div class="detail-stack">
+            <span class="label">Prototype stack</span>
+            LangGraph agent &rarr; RAG over FAERS + PubMed + internal cases (LlamaIndex + Pinecone) &rarr; Claude for signal reasoning &rarr; alert dashboard with severity scoring + evidence citations
+          </div>
+          <button class="cta-btn" onclick="event.stopPropagation(); openDeepDive('Adverse Signal Hunter')">Deep dive on this idea <i class="fa-solid fa-arrow-up-right-from-square"></i></button>
+        </div>
+      </div>
+
+      <div class="idea-card featured" data-tags="agentic rag" onclick="toggleIdea(this)">
+        <div class="idea-top">
+          <div>
+            <div class="idea-title">Protocol Deviation Predictor &mdash; real-time trial compliance agent</div>
+            <div class="tag-row">
+              <span class="tag tag-agentic">Agentic</span>
+              <span class="tag tag-rag">RAG</span>
+              <span class="tag tag-novel">Most novel</span>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+            <span class="top-badge">&#127942; Top pick</span>
+            <i class="fa-solid fa-chevron-down chevron"></i>
+          </div>
+        </div>
+        <div class="idea-desc">Monitors incoming EDC data streams and site activity logs. Uses RAG over the protocol document + historical deviation data from past trials to predict which sites are 2&ndash;3 weeks away from a protocol deviation &mdash; and proactively alerts monitors with a specific, explainable risk reason.</div>
+        <div class="idea-gap-line">Current tools only flag deviations after they happen. This predicts and prevents.</div>
+        <div class="detail-panel">
+          <div class="detail-grid">
+            <div class="detail-block">
+              <div class="detail-label">Pain point addressed</div>
+              <div class="detail-val">Clinical trial monitors discover deviations 2&ndash;6 weeks after they occur. By then data is compromised and remediation costs hundreds of thousands of dollars.</div>
+            </div>
+            <div class="detail-block">
+              <div class="detail-label">Why it's unbuilt</div>
+              <div class="detail-val">Requires combining protocol semantics (RAG over protocol doc) with live EDC data patterns. Neither standalone analytics nor LLMs alone can do this.</div>
+            </div>
+            <div class="detail-block">
+              <div class="detail-label">Hackathon demo</div>
+              <div class="detail-val">Simulate a 10-site trial with synthetic EDC data. Show the agent flagging Site 4 as high-risk 3 weeks before the deviation, citing the exact protocol clause.</div>
+            </div>
+            <div class="detail-block">
+              <div class="detail-label">Winning angle</div>
+              <div class="detail-val">Every CRO and sponsor has felt this pain. Predicting before vs. flagging after is a paradigm shift any pharma judge will immediately understand.</div>
+            </div>
+          </div>
+          <div class="detail-stack">
+            <span class="label">Prototype stack</span>
+            LlamaIndex RAG over protocol PDF &rarr; LangGraph agent polling synthetic EDC data &rarr; anomaly detection layer &rarr; proactive alert with natural language explanation + recommended corrective action
+          </div>
+          <button class="cta-btn" onclick="event.stopPropagation(); openDeepDive('Protocol Deviation Predictor')">Deep dive on this idea <i class="fa-solid fa-arrow-up-right-from-square"></i></button>
+        </div>
+      </div>
+
+      <div class="idea-card" data-tags="agentic rag" onclick="toggleIdea(this)">
+        <div class="idea-top">
+          <div>
+            <div class="idea-title">Rare Disease Diagnostic Navigator &mdash; phenotype-to-diagnosis agent</div>
+            <div class="tag-row">
+              <span class="tag tag-agentic">Agentic</span>
+              <span class="tag tag-rag">RAG</span>
+            </div>
+          </div>
+          <i class="fa-solid fa-chevron-down chevron" style="margin-top:4px"></i>
+        </div>
+        <div class="idea-desc">A multi-step reasoning agent that takes a patient's EHR timeline, lab trends, and symptom narrative and runs iterative differential diagnosis &mdash; grounded in NORD, Orphanet, and recent case literature. Surfaces the 3 most likely rare conditions with specific evidence citations and next recommended tests.</div>
+        <div class="idea-gap-line">No tool does longitudinal, multi-modal reasoning grounded in rare disease literature simultaneously.</div>
+        <div class="detail-panel">
+          <div class="detail-grid">
+            <div class="detail-block">
+              <div class="detail-label">Pain point addressed</div>
+              <div class="detail-val">Patients with rare diseases wait 4&ndash;8 years for a diagnosis, visiting 7+ specialists. No tool synthesizes their full longitudinal record against rare disease literature.</div>
+            </div>
+            <div class="detail-block">
+              <div class="detail-label">Why it's unbuilt</div>
+              <div class="detail-val">Requires multi-step reasoning: symptom extraction &rarr; phenotype mapping &rarr; differential scoring &rarr; literature grounding. No single tool chains all these steps today.</div>
+            </div>
+            <div class="detail-block">
+              <div class="detail-label">Hackathon demo</div>
+              <div class="detail-val">Feed a 3-year synthetic patient timeline with 12 symptoms. Show the agent narrowing to 3 rare conditions with specific literature citations and next-step test recommendations.</div>
+            </div>
+            <div class="detail-block">
+              <div class="detail-label">Winning angle</div>
+              <div class="detail-val">A 4&ndash;8 year patient journey condensed to minutes. Emotionally resonant story + technically impressive demo = presentation judges remember.</div>
+            </div>
+          </div>
+          <div class="detail-stack">
+            <span class="label">Prototype stack</span>
+            LlamaIndex RAG over NORD/Orphanet + PubMed case reports &rarr; LangGraph multi-step reasoning agent &rarr; EHR timeline parser &rarr; ranked differential with evidence citations per condition
+          </div>
+          <button class="cta-btn" onclick="event.stopPropagation(); openDeepDive('Rare Disease Diagnostic Navigator')">Deep dive on this idea <i class="fa-solid fa-arrow-up-right-from-square"></i></button>
+        </div>
+      </div>
+
+      <div class="idea-card" data-tags="voice agentic" onclick="toggleIdea(this)">
+        <div class="idea-top">
+          <div>
+            <div class="idea-title">MSL Field Intelligence Voice Agent &mdash; KOL debrief synthesizer</div>
+            <div class="tag-row">
+              <span class="tag tag-voice">Voice</span>
+              <span class="tag tag-agentic">Agentic</span>
+            </div>
+          </div>
+          <i class="fa-solid fa-chevron-down chevron" style="margin-top:4px"></i>
+        </div>
+        <div class="idea-desc">After a KOL meeting, an MSL speaks a 2-minute debrief to a voice agent. The agent structures the insight, classifies it by topic (unmet need, competitive intel, label question), tags it to the relevant product and indication, and routes it to the right team &mdash; zero CRM data entry.</div>
+        <div class="idea-gap-line">MSL insight capture is entirely manual. 60&ndash;70% of field intelligence is never recorded.</div>
+        <div class="detail-panel">
+          <div class="detail-grid">
+            <div class="detail-block">
+              <div class="detail-label">Pain point addressed</div>
+              <div class="detail-val">MSLs spend 45 min on CRM entry after every KOL meeting. Field intelligence doesn't reach the right teams in time and most of it evaporates unrecorded.</div>
+            </div>
+            <div class="detail-block">
+              <div class="detail-label">Why it's unbuilt</div>
+              <div class="detail-val">Voice + pharma-specific structured extraction + automatic routing hasn't been combined. CRMs are too rigid to capture unstructured medical nuance.</div>
+            </div>
+            <div class="detail-block">
+              <div class="detail-label">Hackathon demo</div>
+              <div class="detail-val">Record a 2-min mock MSL debrief live on stage. Show the agent extracting insights, classifying and tagging them, populating a structured intelligence feed in real time.</div>
+            </div>
+            <div class="detail-block">
+              <div class="detail-label">Winning angle</div>
+              <div class="detail-val">Live voice demo on stage = instant wow factor. The problem is universally understood by pharma judges who have witnessed the CRM entry burden firsthand.</div>
+            </div>
+          </div>
+          <div class="detail-stack">
+            <span class="label">Prototype stack</span>
+            ElevenLabs / Gemini Live API (voice) &rarr; Whisper transcription &rarr; Claude extraction agent &rarr; LangGraph classification + routing &rarr; Supabase persistence &rarr; real-time intelligence dashboard
+          </div>
+          <button class="cta-btn" onclick="event.stopPropagation(); openDeepDive('MSL Field Intelligence Voice Agent')">Deep dive on this idea <i class="fa-solid fa-arrow-up-right-from-square"></i></button>
+        </div>
+      </div>
+
+      <div class="idea-card" data-tags="agentic rag" onclick="toggleIdea(this)">
+        <div class="idea-top">
+          <div>
+            <div class="idea-title">CTD Submission Auditor &mdash; regulatory consistency agent</div>
+            <div class="tag-row">
+              <span class="tag tag-agentic">Agentic</span>
+              <span class="tag tag-rag">RAG</span>
+            </div>
+          </div>
+          <i class="fa-solid fa-chevron-down chevron" style="margin-top:4px"></i>
+        </div>
+        <div class="idea-desc">Ingests an entire CTD dossier and autonomously checks for cross-module consistency, missing cross-references, and ICH guideline alignment &mdash; flagging specific page numbers with plain-language explanations of each issue and a suggested fix.</div>
+        <div class="idea-gap-line">No tool audits full dossier consistency. Manual QC takes weeks and costs $500K+ per submission.</div>
+        <div class="detail-panel">
+          <div class="detail-grid">
+            <div class="detail-block">
+              <div class="detail-label">Pain point addressed</div>
+              <div class="detail-val">Regulatory teams spend weeks on manual QC of 50,000-page dossiers. A single inconsistency between Module 2 and Module 5 can delay drug approval by months.</div>
+            </div>
+            <div class="detail-block">
+              <div class="detail-label">Why it's unbuilt</div>
+              <div class="detail-val">Document-level reasoning across a 50,000-page corpus requires chunked RAG + cross-document agent reasoning &mdash; only recently practical with long-context LLMs.</div>
+            </div>
+            <div class="detail-block">
+              <div class="detail-label">Hackathon demo</div>
+              <div class="detail-val">Upload 3 CTD modules (real or synthetic). Show the agent finding 5 specific cross-module inconsistencies, citing exact pages, and explaining the regulatory risk of each.</div>
+            </div>
+            <div class="detail-block">
+              <div class="detail-label">Winning angle</div>
+              <div class="detail-val">$500K QC cost and months of delay, quantified and preventable. A direct, defensible business case with zero ambiguity about ROI.</div>
+            </div>
+          </div>
+          <div class="detail-stack">
+            <span class="label">Prototype stack</span>
+            LlamaIndex ingestion of CTD modules &rarr; cross-module consistency agent (LangGraph) &rarr; ICH guideline RAG &rarr; structured audit report with issue, page, severity, and suggested fix
+          </div>
+          <button class="cta-btn" onclick="event.stopPropagation(); openDeepDive('CTD Submission Auditor')">Deep dive on this idea <i class="fa-solid fa-arrow-up-right-from-square"></i></button>
+        </div>
+      </div>
+
+      <div class="idea-card" data-tags="voice rag" onclick="toggleIdea(this)">
+        <div class="idea-top">
+          <div>
+            <div class="idea-title">Patient Adherence Companion &mdash; adaptive conversational agent</div>
+            <div class="tag-row">
+              <span class="tag tag-voice">Voice</span>
+              <span class="tag tag-rag">RAG</span>
+            </div>
+          </div>
+          <i class="fa-solid fa-chevron-down chevron" style="margin-top:4px"></i>
+        </div>
+        <div class="idea-desc">A voice agent that checks in with chronic disease patients daily, understands their actual barriers (cost, side effects, forgetfulness, beliefs) through natural conversation, and adapts its support strategy over weeks &mdash; feeding structured adherence signals back to the care team.</div>
+        <div class="idea-gap-line">Existing adherence tools are notification-based. None reason about why a patient is non-adherent and adapt their approach.</div>
+        <div class="detail-panel">
+          <div class="detail-grid">
+            <div class="detail-block">
+              <div class="detail-label">Pain point addressed</div>
+              <div class="detail-val">50% of chronic disease patients don't adhere to treatment. Providers have no visibility into why. Reminder apps don't understand barriers &mdash; they just nag.</div>
+            </div>
+            <div class="detail-block">
+              <div class="detail-label">Why it's unbuilt</div>
+              <div class="detail-val">Longitudinal voice relationship + adaptive strategy requires conversational memory + behavioral pattern reasoning &mdash; not possible with rule-based chatbots.</div>
+            </div>
+            <div class="detail-block">
+              <div class="detail-label">Hackathon demo</div>
+              <div class="detail-val">Simulate 5 days of check-ins with a synthetic patient. Show the agent evolving its approach as it learns the specific barrier (cost), and the care team dashboard reflecting this.</div>
+            </div>
+            <div class="detail-block">
+              <div class="detail-label">Winning angle</div>
+              <div class="detail-val">$300B lost annually to medication non-adherence in the US. A system that understands why &mdash; and adapts &mdash; is a patient-centered story that resonates with any audience.</div>
+            </div>
+          </div>
+          <div class="detail-stack">
+            <span class="label">Prototype stack</span>
+            ElevenLabs voice &rarr; LangGraph conversational agent with longitudinal memory (Supabase) &rarr; barrier classification layer &rarr; care team dashboard with adherence signals and barrier summaries
+          </div>
+          <button class="cta-btn" onclick="event.stopPropagation(); openDeepDive('Patient Adherence Companion')">Deep dive on this idea <i class="fa-solid fa-arrow-up-right-from-square"></i></button>
+        </div>
+      </div>
+
+      <div class="idea-card featured" data-tags="voice agentic" onclick="toggleIdea(this)">
+        <div class="idea-top">
+          <div>
+            <div class="idea-title">AURA &mdash; Autonomous Unified Resolution Agent for pharma-grade enterprise IT</div>
+            <div class="tag-row">
+              <span class="tag tag-voice">Voice</span>
+              <span class="tag tag-agentic">Agentic</span>
+              <span class="tag tag-novel">Your idea</span>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+            <span class="top-badge">&#127942; Top pick</span>
+            <i class="fa-solid fa-chevron-down chevron"></i>
+          </div>
+        </div>
+        <div class="idea-desc">A self-healing enterprise support agent built for GxP-regulated pharma environments like Gilead. AI-first: resolves issues autonomously via backend sub-agents (password resets, access provisioning, script execution). When it can't resolve, it escalates to the skill-matched human agent &mdash; handing off a sentiment analysis, bullet summary, recommended steps, and a pre-filled ServiceNow ticket. Zero documentation burden on the human agent.</div>
+        <div class="idea-gap-line">Generic AI call center bots don't execute backend scripts, don't do skill-matched escalation, and don't understand GxP compliance audit requirements. AURA does all three.</div>
+        <div class="detail-panel">
+          <div class="detail-grid">
+            <div class="detail-block">
+              <div class="detail-label">Pain point addressed</div>
+              <div class="detail-val">In pharma, a locked-out lab analyst can delay batch release or halt a clinical trial. L1 agents waste time on repetitive resolvable issues, and every manual ticket is an undocumented compliance risk. 3 months of real Gilead call data confirms the pattern.</div>
+            </div>
+            <div class="detail-block">
+              <div class="detail-label">Why it's genuinely novel</div>
+              <div class="detail-val">The combination is unbuilt: AI-first resolution with real script execution + skill-scored escalation routing + pre-call sentiment handoff to the human + auto-generated GxP-compliant ServiceNow ticket with work notes. No single tool does all five in a pharma context.</div>
+            </div>
+            <div class="detail-block">
+              <div class="detail-label">Pharma domain fit</div>
+              <div class="detail-val">GxP / 21 CFR Part 11 requires every action on regulated systems to be auditable and traceable. AURA's auto-ticket with timestamped steps isn't a convenience &mdash; it's a compliance artifact. This reframes "IT support bot" as "regulated environment self-healing agent."</div>
+            </div>
+            <div class="detail-block">
+              <div class="detail-label">Winning angle</div>
+              <div class="detail-val">Live demo: Call 1 &mdash; AI resolves autonomously (password reset via sub-agent script). Call 2 &mdash; AI can't resolve; human agent receives sentiment flag, bullet summary, recommended steps, and a pre-filled ServiceNow ticket before they even say hello. The contrast is the story.</div>
+            </div>
+          </div>
+          <div class="detail-stack">
+            <span class="label">Prototype stack</span>
+            ElevenLabs / Gemini Live (voice) &rarr; Whisper STT &rarr; LangGraph orchestrator &rarr; sub-agents (script executor, AD reset, ServiceNow API) &rarr; skill-match escalation router &rarr; sentiment analysis layer &rarr; human agent handoff dashboard (real-time) &rarr; Supabase for session state
+          </div>
+          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:12px;margin-bottom:14px;">
+            <div class="detail-label" style="margin-bottom:8px">Your unfair advantages</div>
+            <div style="font-size:12px;color:var(--text2);line-height:1.8;">
+              &#10003; &nbsp;3 months of real Gilead L1 call data &mdash; you know the top 20 issue types<br>
+              &#10003; &nbsp;You understand the actual ServiceNow workflow from the inside<br>
+              &#10003; &nbsp;You know which issues have scriptable solutions vs. which need human judgment<br>
+              &#10003; &nbsp;Gilead is your demo client &mdash; makes the pitch concrete and credible
+            </div>
+          </div>
+          <button class="cta-btn" onclick="event.stopPropagation(); openDeepDive('AURA — Autonomous Unified Resolution Agent')">Deep dive on this idea <i class="fa-solid fa-arrow-up-right-from-square"></i></button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+<script>
+function showTab(name, btn) {
+  ['pains','gaps','ideas'].forEach(t => {
+    const el = document.getElementById('tab-' + t);
+    el.classList.add('hidden');
+    el.classList.remove('pane');
+  });
+  const el = document.getElementById('tab-' + name);
+  el.classList.remove('hidden');
+  void el.offsetHeight;
+  el.classList.add('pane');
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+}
+function selectPain(card) {
+  document.querySelectorAll('.pain-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  showTab('ideas', document.querySelectorAll('.tab')[2]);
+}
+function toggleIdea(card) {
+  const wasOpen = card.classList.contains('open');
+  document.querySelectorAll('.idea-card.open').forEach(c => c.classList.remove('open'));
+  if (!wasOpen) card.classList.add('open');
+}
+function setFilter(btn, tag) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('.idea-card').forEach(card => {
+    if (tag === 'all') { card.style.display = ''; return; }
+    const tags = (card.dataset.tags || '').split(' ');
+    card.style.display = tags.includes(tag) ? '' : 'none';
+    if (!tags.includes(tag) && card.classList.contains('open')) card.classList.remove('open');
+  });
+}
+function openDeepDive(title) {
+  alert('Ask Claude: "Deep dive on ' + title + ' — give me the full 48-hour prototype build plan, technical architecture, demo script, and pitch narrative."');
+}
+</script>
+</body>
+</html>
