@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How the Pharma World Works — A Beginner's Field Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a1a1a;
+  --ink2: #3d3d3d;
+  --ink3: #6b6b6b;
+  --ink4: #9a9a9a;
+  --paper: #faf8f4;
+  --paper2: #f3f0e9;
+  --paper3: #e8e4d9;
+  --rule: #ddd9ce;
+  --teal: #0d6b5e;
+  --teal-light: #e0f0ed;
+  --teal-mid: #1d9e8a;
+  --amber: #92530a;
+  --amber-light: #fef3e2;
+  --amber-mid: #d97706;
+  --coral: #8b2e1a;
+  --coral-light: #fdf0ed;
+  --coral-mid: #dc4f2a;
+  --blue: #1a3a6b;
+  --blue-light: #edf2fb;
+  --blue-mid: #2563eb;
+  --purple: #4a1d7a;
+  --purple-light: #f3edfb;
+  --purple-mid: #7c3aed;
+  --serif: 'Instrument Serif', Georgia, serif;
+  --sans: 'Inter', sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+/* ── LAYOUT ── */
+.shell { display: flex; min-height: 100vh; }
+
+.sidebar {
+  width: 240px;
+  flex-shrink: 0;
+  background: var(--paper2);
+  border-right: 1px solid var(--rule);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  padding: 2rem 0 2rem;
+}
+
+.sidebar-title {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink4);
+  padding: 0 1.25rem 1rem;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 0.75rem;
+}
+
+.nav-item {
+  display: block;
+  padding: 6px 1.25rem;
+  font-size: 12px;
+  color: var(--ink3);
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  transition: all 0.15s;
+  line-height: 1.4;
+}
+
+.nav-item:hover { color: var(--ink); background: var(--paper3); }
+.nav-item.active { color: var(--teal); border-left-color: var(--teal); background: var(--teal-light); font-weight: 500; }
+.nav-section { font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink4); padding: 1.25rem 1.25rem 0.3rem; }
+
+.content { flex: 1; max-width: 820px; padding: 3rem 3.5rem 6rem; }
+
+/* ── TYPOGRAPHY ── */
+.chapter-eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink4);
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.chapter-eyebrow::before { content: ''; display: block; width: 20px; height: 1px; background: var(--ink4); }
+
+h1.chapter-title {
+  font-family: var(--serif);
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--ink);
+  margin-bottom: 1rem;
+}
+h1.chapter-title em { font-style: italic; color: var(--teal); }
+
+.chapter-intro {
+  font-size: 16px;
+  color: var(--ink2);
+  line-height: 1.75;
+  border-left: 3px solid var(--teal);
+  padding-left: 1.25rem;
+  margin-bottom: 2.5rem;
+}
+
+h2 {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--ink);
+  margin: 2.5rem 0 0.75rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--rule);
+}
+
+h3 {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  margin: 1.75rem 0 0.6rem;
+}
+
+p { color: var(--ink2); margin-bottom: 1rem; }
+
+/* ── COMPONENTS ── */
+.section { margin-bottom: 4rem; padding-top: 1rem; }
+
+.callout {
+  border-radius: 8px;
+  padding: 1.1rem 1.25rem;
+  margin: 1.25rem 0;
+  display: flex;
+  gap: 12px;
+}
+.callout-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+.callout-body { flex: 1; }
+.callout-title { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+.callout p { font-size: 13px; margin: 0; line-height: 1.6; }
+
+.callout-teal { background: var(--teal-light); border-left: 3px solid var(--teal-mid); }
+.callout-teal .callout-title { color: var(--teal); }
+.callout-teal p { color: #2a5e56; }
+
+.callout-amber { background: var(--amber-light); border-left: 3px solid var(--amber-mid); }
+.callout-amber .callout-title { color: var(--amber); }
+.callout-amber p { color: #6b3d08; }
+
+.callout-coral { background: var(--coral-light); border-left: 3px solid var(--coral-mid); }
+.callout-coral .callout-title { color: var(--coral); }
+.callout-coral p { color: #5c2412; }
+
+.callout-blue { background: var(--blue-light); border-left: 3px solid var(--blue-mid); }
+.callout-blue .callout-title { color: var(--blue); }
+.callout-blue p { color: #1a3060; }
+
+.callout-purple { background: var(--purple-light); border-left: 3px solid var(--purple-mid); }
+.callout-purple .callout-title { color: var(--purple); }
+.callout-purple p { color: #3a1560; }
+
+.flow {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 1.5rem 0;
+}
+
+.flow-step {
+  display: flex;
+  gap: 16px;
+  position: relative;
+}
+
+.flow-step::before {
+  content: '';
+  position: absolute;
+  left: 18px;
+  top: 44px;
+  bottom: -8px;
+  width: 1px;
+  background: var(--rule);
+}
+.flow-step:last-child::before { display: none; }
+
+.flow-num {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--teal);
+  color: white;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.flow-body {
+  padding-bottom: 2rem;
+  flex: 1;
+}
+
+.flow-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 3px;
+}
+
+.flow-desc { font-size: 13px; color: var(--ink3); line-height: 1.6; }
+.flow-desc strong { color: var(--ink2); font-weight: 600; }
+
+.players-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+  margin: 1.25rem 0;
+}
+
+.player-card {
+  background: white;
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  padding: 1rem;
+  border-top: 3px solid var(--teal);
+}
+
+.player-card.amber-top { border-top-color: var(--amber-mid); }
+.player-card.coral-top { border-top-color: var(--coral-mid); }
+.player-card.blue-top { border-top-color: var(--blue-mid); }
+.player-card.purple-top { border-top-color: var(--purple-mid); }
+
+.player-name { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+.player-role { font-size: 12px; color: var(--ink3); line-height: 1.55; }
+.player-eg { font-family: var(--mono); font-size: 10px; color: var(--ink4); margin-top: 6px; }
+
+.term-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 1.25rem 0;
+}
+
+.term-card {
+  background: var(--paper2);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+}
+
+.term-word {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--teal);
+  margin-bottom: 4px;
+}
+.term-def { font-size: 12px; color: var(--ink3); line-height: 1.55; }
+
+.big-stat {
+  background: white;
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  margin: 1rem 0;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+.stat-num { font-family: var(--serif); font-size: 2.5rem; color: var(--teal); line-height: 1; }
+.stat-label { font-size: 13px; color: var(--ink3); line-height: 1.5; }
+
+.stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 1.25rem 0; }
+
+.timeline {
+  border-left: 2px solid var(--rule);
+  padding-left: 1.5rem;
+  margin: 1.25rem 0;
+}
+.tl-item { margin-bottom: 1.5rem; position: relative; }
+.tl-item::before {
+  content: '';
+  position: absolute;
+  left: -1.87rem;
+  top: 6px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--teal);
+  border: 2px solid var(--paper);
+}
+.tl-phase { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; color: var(--teal); text-transform: uppercase; margin-bottom: 2px; }
+.tl-title { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 3px; }
+.tl-desc { font-size: 13px; color: var(--ink3); line-height: 1.6; }
+
+.table-wrap { overflow-x: auto; margin: 1.25rem 0; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+thead tr { background: var(--paper2); }
+th { padding: 10px 12px; text-align: left; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; color: var(--ink3); border-bottom: 1px solid var(--rule); }
+td { padding: 10px 12px; color: var(--ink2); border-bottom: 1px solid var(--rule); vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--paper2); }
+
+.bridge-box {
+  background: linear-gradient(135deg, var(--teal-light) 0%, var(--purple-light) 100%);
+  border: 1px solid var(--teal-mid);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 2rem 0;
+}
+.bridge-box h3 { color: var(--teal); border: none; margin-top: 0; }
+
+.tag { display: inline-block; font-family: var(--mono); font-size: 10px; padding: 2px 8px; border-radius: 4px; margin-right: 4px; margin-bottom: 4px; }
+.tag-teal { background: var(--teal-light); color: var(--teal); }
+.tag-amber { background: var(--amber-light); color: var(--amber); }
+.tag-coral { background: var(--coral-light); color: var(--coral); }
+.tag-blue { background: var(--blue-light); color: var(--blue); }
+
+.chapter-divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 3rem 0;
+}
+.chapter-divider::before, .chapter-divider::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+.chapter-divider span { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; color: var(--ink4); white-space: nowrap; }
+
+.quote-block {
+  border-left: 3px solid var(--amber-mid);
+  background: var(--amber-light);
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  border-radius: 0 8px 8px 0;
+}
+.quote-text { font-family: var(--serif); font-size: 1.1rem; font-style: italic; color: var(--amber); margin-bottom: 4px; }
+.quote-attr { font-family: var(--mono); font-size: 10px; color: var(--ink4); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 2px; }
+
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .content { padding: 2rem 1.5rem 4rem; }
+  .term-grid { grid-template-columns: 1fr; }
+  .stats-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- SIDEBAR NAV -->
+<nav class="sidebar">
+  <div class="sidebar-title">Field guide · Pharma 101</div>
+  <span class="nav-section">The world</span>
+  <a class="nav-item active" href="#ch1">The big picture</a>
+  <a class="nav-item" href="#ch2">The three industries</a>
+  <a class="nav-item" href="#ch3">Who are all these people?</a>
+  <span class="nav-section">How drugs get made</span>
+  <a class="nav-item" href="#ch4">Discovery &amp; research</a>
+  <a class="nav-item" href="#ch5">Clinical trials</a>
+  <a class="nav-item" href="#ch6">Regulatory approval</a>
+  <a class="nav-item" href="#ch7">Manufacturing &amp; supply</a>
+  <span class="nav-section">After the drug exists</span>
+  <a class="nav-item" href="#ch8">Sales &amp; marketing</a>
+  <a class="nav-item" href="#ch9">Medical affairs</a>
+  <a class="nav-item" href="#ch10">Pharmacovigilance</a>
+  <a class="nav-item" href="#ch11">The patient journey</a>
+  <span class="nav-section">The systems</span>
+  <a class="nav-item" href="#ch12">IT &amp; enterprise systems</a>
+  <a class="nav-item" href="#ch13">Regulation &amp; compliance</a>
+  <span class="nav-section">Connecting the dots</span>
+  <a class="nav-item" href="#ch14">Where AI fits in</a>
+  <a class="nav-item" href="#ch15">PharmaBridge in context</a>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main class="content">
+
+<!-- ═══════════════════════════ CH 1 ═══════════════════════════ -->
+<section class="section" id="ch1">
+  <div class="chapter-eyebrow">Chapter 1</div>
+  <h1 class="chapter-title">The <em>big picture</em> — what this world actually is</h1>
+  <p class="chapter-intro">Pharma, healthcare, and life science together form one of the largest, most complex, and most regulated industries on earth. Before we go deep, here is the simplest possible version of how it all fits together.</p>
+
+  <div class="callout callout-teal">
+    <div class="callout-icon">🔬</div>
+    <div class="callout-body">
+      <div class="callout-title">The single sentence that explains everything</div>
+      <p>Scientists discover that a molecule might treat a disease → companies spend years and billions testing it → governments decide if it's safe enough to sell → doctors prescribe it → patients take it → companies monitor what happens. That full loop — from lab bench to patient bedside — is this entire industry.</p>
+    </div>
+  </div>
+
+  <h2>Why this industry is different from every other</h2>
+  <p>In most industries, if you build a product people want, you sell it. Pharma doesn't work like that. Every drug must be proven safe and effective through years of testing on thousands of humans, reviewed by governments, and monitored for its entire lifetime on the market. The stakes are life and death — literally. A mistake doesn't mean a bad product review. It means patients are harmed.</p>
+
+  <div class="stats-row">
+    <div class="big-stat" style="flex-direction:column;gap:4px;align-items:flex-start">
+      <div class="stat-num">$2.6B</div>
+      <div class="stat-label">Average cost to bring one drug to market</div>
+    </div>
+    <div class="big-stat" style="flex-direction:column;gap:4px;align-items:flex-start">
+      <div class="stat-num">12 yrs</div>
+      <div class="stat-label">Average time from discovery to patient</div>
+    </div>
+    <div class="big-stat" style="flex-direction:column;gap:4px;align-items:flex-start">
+      <div class="stat-num">1 in 10</div>
+      <div class="stat-label">Drug candidates that make it through trials</div>
+    </div>
+  </div>
+
+  <p>This is why everything in this world is slow, cautious, documented, and regulated. It's not bureaucracy for the sake of bureaucracy. It's because the cost of being wrong is measured in human lives.</p>
+
+  <div class="callout callout-amber">
+    <div class="callout-icon">💡</div>
+    <div class="callout-body">
+      <div class="callout-title">Your client, Gilead Sciences</div>
+      <p>Gilead is a top-10 global pharmaceutical company headquartered in Foster City, California. They specialize in antiviral drugs — treatments for HIV, Hepatitis C, and most recently COVID-19 (Remdesivir). They also have oncology (cancer) treatments. Revenue: ~$27 billion/year. Employees: ~17,000. When Gilead has an IT issue, it's not a small startup's laptop problem — it's an enterprise with global clinical trials, manufacturing plants, and regulatory submissions running simultaneously.</p>
+    </div>
+  </div>
+</section>
+
+<div class="chapter-divider"><span>chapter 2</span></div>
+
+<!-- ═══════════════════════════ CH 2 ═══════════════════════════ -->
+<section class="section" id="ch2">
+  <div class="chapter-eyebrow">Chapter 2</div>
+  <h1 class="chapter-title">The three <em>industries</em> — and how they're different</h1>
+  <p class="chapter-intro">You'll hear "Life Science, Pharmaceutical, and Healthcare" grouped together. They overlap, but they are three genuinely different worlds with different goals, different people, and different problems.</p>
+
+  <h2>Pharmaceutical companies</h2>
+  <p>These are the companies that discover, develop, manufacture, and sell drugs. Their core job is: find a molecule that treats a disease, prove it's safe, get government approval, and sell it to hospitals and pharmacies. They are private businesses, but they operate under intense government regulation.</p>
+
+  <div class="players-grid">
+    <div class="player-card">
+      <div class="player-name">Big Pharma</div>
+      <div class="player-role">Global companies with hundreds of drugs on the market, massive R&amp;D budgets, and sales forces in every country.</div>
+      <div class="player-eg">Pfizer · Gilead · Roche · AstraZeneca · Novartis</div>
+    </div>
+    <div class="player-card amber-top">
+      <div class="player-name">Biotech companies</div>
+      <div class="player-role">Smaller, often focused on one disease area. They use biological processes (living cells) rather than chemistry to make drugs. Many are acquired by Big Pharma.</div>
+      <div class="player-eg">Moderna · BioNTech · Regeneron</div>
+    </div>
+    <div class="player-card coral-top">
+      <div class="player-name">Generic drug makers</div>
+      <div class="player-role">After a drug's patent expires (usually 20 years), other companies can make the same drug cheaper. These are called generics.</div>
+      <div class="player-eg">Teva · Mylan · Sun Pharma</div>
+    </div>
+    <div class="player-card blue-top">
+      <div class="player-name">CROs</div>
+      <div class="player-role">Contract Research Organizations. Pharma companies hire these specialized firms to run clinical trials on their behalf. They manage trial sites, data collection, and compliance.</div>
+      <div class="player-eg">IQVIA · Covance · PRA Health</div>
+    </div>
+  </div>
+
+  <h2>Healthcare</h2>
+  <p>Healthcare is where patients and doctors meet. It includes hospitals, clinics, pharmacies, insurance companies, and government health systems. These organizations don't make drugs — they use them to treat patients.</p>
+
+  <div class="players-grid">
+    <div class="player-card blue-top">
+      <div class="player-name">Hospitals &amp; health systems</div>
+      <div class="player-role">Where patients receive treatment. Use EHR systems to record everything. Buy drugs in bulk from pharma companies through group purchasing organizations.</div>
+      <div class="player-eg">Mayo Clinic · Cleveland Clinic · NHS</div>
+    </div>
+    <div class="player-card purple-top">
+      <div class="player-name">Payers (insurance)</div>
+      <div class="player-role">Decide which drugs they'll cover and at what cost. Their formulary (list of covered drugs) has enormous power over which drugs get prescribed.</div>
+      <div class="player-eg">UnitedHealth · Cigna · Aetna</div>
+    </div>
+    <div class="player-card">
+      <div class="player-name">Physicians</div>
+      <div class="player-role">Prescribe drugs to patients. Influenced by clinical evidence, KOL opinions, MSL education, and pharma sales reps. The ones pharma companies spend enormous effort reaching.</div>
+      <div class="player-eg">GPs · Oncologists · Cardiologists</div>
+    </div>
+    <div class="player-card amber-top">
+      <div class="player-name">Pharmacies</div>
+      <div class="player-role">Dispense drugs to patients. Also collect prescription data that pharma companies buy (anonymized) to track prescribing patterns.</div>
+      <div class="player-eg">CVS · Walgreens · Boots</div>
+    </div>
+  </div>
+
+  <h2>Life Science</h2>
+  <p>Life science is the broadest category — it's the research and technology layer that underpins pharma and healthcare. It includes academic research institutions, medical device companies, diagnostic companies, and lab equipment manufacturers.</p>
+
+  <div class="callout callout-teal">
+    <div class="callout-icon">🔁</div>
+    <div class="callout-body">
+      <div class="callout-title">How they interact — the chain</div>
+      <p>Academic life science research discovers a promising molecule → A biotech company licenses it and runs early development → A big pharma company acquires the biotech and funds full clinical trials → Regulators approve it → The pharma company's sales team convinces physicians to prescribe it → Patients receive it through hospitals and pharmacies → Insurers decide how much of the cost they'll cover → Pharmacovigilance teams monitor it for lifetime safety. Each hand-off is a separate industry relationship.</p>
+    </div>
+  </div>
+</section>
+
+<div class="chapter-divider"><span>chapter 3</span></div>
+
+<!-- ═══════════════════════════ CH 3 ═══════════════════════════ -->
+<section class="section" id="ch3">
+  <div class="chapter-eyebrow">Chapter 3</div>
+  <h1 class="chapter-title">Who are <em>all these people</em>?</h1>
+  <p class="chapter-intro">A pharma company like Gilead has thousands of employees across dozens of functions. Here are the ones you'll encounter most often — who they are, what they do every day, and why they matter.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Role</th><th>What they do every day</th><th>Their biggest pain</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Researcher / Scientist</strong></td><td>Work in labs running experiments to discover or optimize drug molecules. Use highly specialized software tools and lab equipment. Often PhDs.</td><td>Being locked out of LIMS (lab management software) means experiments stop. Data loss means months of work gone.</td></tr>
+        <tr><td><strong>Clinical Trial Manager</strong></td><td>Oversee the running of clinical trials — coordinate trial sites, ensure protocols are followed, manage data collection from EDC systems.</td><td>Protocol deviations discovered late. Sites that go off-script. Patient dropout.</td></tr>
+        <tr><td><strong>Regulatory Affairs</strong></td><td>Prepare and submit drug approval packages (CTD dossiers) to FDA, EMA etc. Ensure all submissions are complete, accurate, and compliant.</td><td>Manual cross-checking of 50,000-page documents. Missing a citation can delay approval by months.</td></tr>
+        <tr><td><strong>Medical Science Liaison (MSL)</strong></td><td>Meet with top doctors (KOLs) to share scientific data and gather medical insights. Bridge between pharma and the medical community.</td><td>45 minutes of CRM data entry after every meeting. Most insights never get recorded.</td></tr>
+        <tr><td><strong>Sales Representative</strong></td><td>Visit doctors to promote their company's drugs. Leave samples, answer questions, build relationships. Heavily regulated on what they can say.</td><td>Not allowed to discuss off-label uses. Doctors increasingly don't want to see them.</td></tr>
+        <tr><td><strong>Pharmacovigilance (PV) Officer</strong></td><td>Monitor drugs already on the market for unexpected side effects. Read case reports, identify safety signals, report to regulators.</td><td>Millions of reports to process. Signal detection is slow and reactive.</td></tr>
+        <tr><td><strong>Medical Affairs Director</strong></td><td>Oversee all scientific communications, MSL teams, and medical education. Ensure the company's scientific story is accurate and reaches the right doctors.</td><td>Field intelligence doesn't reach them fast enough. KOL insights buried in unread CRM notes.</td></tr>
+        <tr><td><strong>Market Access</strong></td><td>Negotiate with insurers and government health systems to get drugs covered. Build the health-economic case for why a drug is worth its cost.</td><td>Payers increasingly demanding real-world evidence, not just trial data.</td></tr>
+        <tr><td><strong>Manufacturing / QA</strong></td><td>Produce the actual drug at scale. Ensure every batch meets quality standards. Maintain GMP (Good Manufacturing Practice) compliance.</td><td>A single contamination event can destroy an entire batch worth millions.</td></tr>
+        <tr><td><strong>IT / ESD (you)</strong></td><td>Keep all the above people's systems running. Password resets, software access, hardware issues, system integrations. First line of contact when anything breaks.</td><td>Same issues repeating daily. Escalation takes too long. Every minute a scientist is locked out has a real cost.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout callout-amber">
+    <div class="callout-icon">💡</div>
+    <div class="callout-body">
+      <div class="callout-title">Key Opinions Leaders (KOLs) — why pharma cares so much about doctors</div>
+      <p>A KOL is a physician who other physicians listen to and learn from — a top oncologist who presents at conferences, writes guidelines, and trains other doctors. Pharma companies invest heavily in relationships with KOLs because when a KOL adopts a drug, hundreds of their colleagues follow. An MSL's job is to build and maintain these relationships scientifically and ethically — not selling, but educating.</p>
+    </div>
+  </div>
+</section>
+
+<div class="chapter-divider"><span>chapter 4</span></div>
+
+<!-- ═══════════════════════════ CH 4 ═══════════════════════════ -->
+<section class="section" id="ch4">
+  <div class="chapter-eyebrow">Chapter 4</div>
+  <h1 class="chapter-title">Discovery &amp; <em>research</em> — where drugs begin</h1>
+  <p class="chapter-intro">Before any patient takes a drug, scientists spend years in labs trying to find a molecule that does something useful in the human body. This is the most uncertain, expensive, and time-consuming part of the whole process.</p>
+
+  <h2>How a drug idea is born</h2>
+  <p>It starts with understanding a disease at the molecular level. Scientists ask: what's going wrong in a patient's body at the cellular level? Which protein, enzyme, or genetic pathway is the problem? If we could block, activate, or modify that target, would the patient get better?</p>
+
+  <div class="flow">
+    <div class="flow-step">
+      <div class="flow-num">01</div>
+      <div class="flow-body">
+        <div class="flow-label">Target identification</div>
+        <div class="flow-desc">Scientists identify a biological target — usually a protein — that plays a key role in a disease. For example, in HIV, the target might be an enzyme the virus needs to replicate. <strong>Years: 2–4</strong></div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">02</div>
+      <div class="flow-body">
+        <div class="flow-label">Hit identification</div>
+        <div class="flow-desc">Automated systems screen thousands (sometimes millions) of chemical compounds to find ones that interact with the target. These initial hits are like finding needles in a haystack. <strong>Years: 1–2</strong></div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">03</div>
+      <div class="flow-body">
+        <div class="flow-label">Lead optimization</div>
+        <div class="flow-desc">Scientists take the best hits and modify them chemically to improve efficacy (does it work better?), selectivity (does it only hit the right target?), and safety (is it toxic?). <strong>Years: 2–3</strong></div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">04</div>
+      <div class="flow-body">
+        <div class="flow-label">Preclinical testing</div>
+        <div class="flow-desc">The best candidate is tested in cell cultures and animal models to understand basic safety and mechanism. This is required before any human testing is allowed. <strong>Years: 1–3</strong></div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">05</div>
+      <div class="flow-body">
+        <div class="flow-label">IND filing</div>
+        <div class="flow-desc">Company files an Investigational New Drug application with the FDA — essentially asking permission to test in humans. If approved, clinical trials begin. <strong>Months: 6–12</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-coral">
+    <div class="callout-icon">⚠️</div>
+    <div class="callout-body">
+      <div class="callout-title">The brutal reality of attrition</div>
+      <p>For every 10,000 molecules that enter the discovery funnel, roughly 250 make it to preclinical testing, 5 make it to human clinical trials, and only 1 gets approved. Most drugs fail not because the science was wrong, but because they turned out to be toxic in humans, or didn't work as well in humans as in lab models. This is why drug development is so expensive — you're paying for 9,999 failures to find 1 success.</p>
+    </div>
+  </div>
+
+  <h2>Key systems and tools used here</h2>
+  <div class="term-grid">
+    <div class="term-card"><div class="term-word">LIMS</div><div class="term-def">Laboratory Information Management System. Tracks every sample, experiment, and result in a research lab. Scientists can't work without it.</div></div>
+    <div class="term-card"><div class="term-word">ELN</div><div class="term-def">Electronic Lab Notebook. Digital version of the paper notebooks scientists used to keep. All experiments are documented here for reproducibility and compliance.</div></div>
+    <div class="term-card"><div class="term-word">Compound libraries</div><div class="term-def">Collections of millions of chemical compounds that companies screen to find drug candidates. Highly proprietary and enormously valuable.</div></div>
+    <div class="term-card"><div class="term-word">High-throughput screening</div><div class="term-def">Automated robotic systems that can test millions of compounds against a target in days, rather than the years it would take to do manually.</div></div>
+  </div>
+</section>
+
+<div class="chapter-divider"><span>chapter 5</span></div>
+
+<!-- ═══════════════════════════ CH 5 ═══════════════════════════ -->
+<section class="section" id="ch5">
+  <div class="chapter-eyebrow">Chapter 5</div>
+  <h1 class="chapter-title">Clinical <em>trials</em> — testing on humans</h1>
+  <p class="chapter-intro">This is the most expensive, most regulated, and most important part of drug development. A clinical trial is a controlled experiment where a drug is tested on human volunteers. The goal: prove the drug works and is safe enough for the general population.</p>
+
+  <div class="quote-block">
+    <div class="quote-text">"A clinical trial is the only way to know if a drug actually works in the species it's meant for."</div>
+    <div class="quote-attr">Every drug that helped a patient went through this process. Every drug that harmed patients because it skipped it is a tragedy.</div>
+  </div>
+
+  <h2>The four phases of clinical trials</h2>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-phase">Phase 1 · First in human</div>
+      <div class="tl-title">Is it safe? What dose?</div>
+      <div class="tl-desc">20–100 healthy volunteers. Goal: find the maximum tolerable dose and understand how the body processes the drug. Not yet about whether it works — just about safety. Duration: 1–2 years. Cost: ~$5–10M</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-phase">Phase 2 · Proof of concept</div>
+      <div class="tl-title">Does it work? In which patients?</div>
+      <div class="tl-desc">100–500 patients with the target disease. Goal: early evidence of efficacy and continued safety monitoring. About 70% of drugs fail here — either they don't work well enough or side effects are too significant. Duration: 2–3 years. Cost: ~$20–50M</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-phase">Phase 3 · Pivotal trial</div>
+      <div class="tl-title">Does it work better than existing treatments?</div>
+      <div class="tl-desc">1,000–10,000+ patients, multiple countries, often hundreds of hospital sites. This is the trial that regulatory agencies require to approve a drug. Costs $100M–$1B. Most expensive, most complex. About 50% of drugs that reach Phase 3 fail here.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-phase">Phase 4 · Post-market surveillance</div>
+      <div class="tl-title">What happens in the real world?</div>
+      <div class="tl-desc">After approval. Thousands to millions of patients. Monitors long-term safety in a broader population than trial participants. This is where rare side effects that weren't visible in trials get detected. Pharmacovigilance (Chapter 10) lives here.</div>
+    </div>
+  </div>
+
+  <h2>How a trial actually runs — inside the operation</h2>
+  <p>A Phase 3 trial might run across 400 hospital sites in 30 countries. Managing this is an enormous logistical operation.</p>
+
+  <div class="flow">
+    <div class="flow-step">
+      <div class="flow-num">1</div>
+      <div class="flow-body">
+        <div class="flow-label">Protocol design</div>
+        <div class="flow-desc">A detailed document is written specifying every rule of the trial — who can participate (inclusion/exclusion criteria), what drug doses to give, what tests to run and when, what data to collect, how to handle adverse events. This document is called the <strong>protocol</strong>. It is the law of the trial.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">2</div>
+      <div class="flow-body">
+        <div class="flow-label">Site selection &amp; setup</div>
+        <div class="flow-desc">Hospital sites around the world are selected, trained on the protocol, and set up with EDC (Electronic Data Capture) software. Each site has a Principal Investigator (PI) — a senior doctor who is legally responsible for running the trial at that site.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">3</div>
+      <div class="flow-body">
+        <div class="flow-label">Patient recruitment</div>
+        <div class="flow-desc">The hardest part. Finding enough patients who meet the strict eligibility criteria, convincing them to participate, and getting them to stay in the trial. <strong>30–40% of all trial timelines</strong> are consumed by recruitment. Sites that can't recruit patients are the number one reason trials fail.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">4</div>
+      <div class="flow-body">
+        <div class="flow-label">Running the trial</div>
+        <div class="flow-desc">Patients visit the site on a schedule defined by the protocol. At each visit, data is entered into the EDC system. Site staff must follow the protocol exactly. <strong>Any deviation</strong> from the protocol — a patient given the wrong dose, a test done on the wrong day — is a serious compliance issue.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">5</div>
+      <div class="flow-body">
+        <div class="flow-label">Monitoring</div>
+        <div class="flow-desc">Clinical Research Associates (CRAs) — often called monitors — regularly visit each site to check that the protocol is being followed, data is being entered correctly, and no serious adverse events have occurred. In a 400-site trial, this is a massive ongoing operation.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">6</div>
+      <div class="flow-body">
+        <div class="flow-label">Data lock &amp; analysis</div>
+        <div class="flow-desc">When all patients complete the trial, the database is locked, and statisticians analyze the data. Did the drug work? Was it safe? The results determine whether to submit for regulatory approval.</div>
+      </div>
+    </div>
+  </div>
+
+  <h2>Key terms in clinical trials</h2>
+  <div class="term-grid">
+    <div class="term-card"><div class="term-word">Protocol deviation</div><div class="term-def">Any departure from the trial protocol. Minor ones are documented. Major ones can invalidate patient data or trigger regulatory action.</div></div>
+    <div class="term-card"><div class="term-word">EDC (Electronic Data Capture)</div><div class="term-def">The software where all trial data is entered. Medidata Rave and Veeva Vault EDC are common. If a site loses EDC access, they can't enter data.</div></div>
+    <div class="term-card"><div class="term-word">Randomization</div><div class="term-def">Patients are randomly assigned to either receive the real drug or a placebo (dummy pill). Neither patient nor doctor knows which — this is called "double-blind."</div></div>
+    <div class="term-card"><div class="term-word">Informed consent</div><div class="term-def">Every patient must understand and agree to participate. Documented carefully. One of the most strictly enforced requirements in clinical research.</div></div>
+    <div class="term-card"><div class="term-word">SAE (Serious Adverse Event)</div><div class="term-def">A serious unexpected side effect — hospitalization, life-threatening event, or death. Must be reported to regulators within 24–72 hours regardless of time or day.</div></div>
+    <div class="term-card"><div class="term-word">IRB / Ethics Committee</div><div class="term-def">Independent body that reviews and approves trial protocols to ensure patient safety and ethics. Every trial site needs IRB approval before it can start.</div></div>
+  </div>
+</section>
+
+<div class="chapter-divider"><span>chapter 6</span></div>
+
+<!-- ═══════════════════════════ CH 6 ═══════════════════════════ -->
+<section class="section" id="ch6">
+  <div class="chapter-eyebrow">Chapter 6</div>
+  <h1 class="chapter-title">Regulatory <em>approval</em> — asking permission to sell</h1>
+  <p class="chapter-intro">Once a company has clinical trial data, they must convince government regulators that the drug is safe and effective enough to sell to the general public. This process is different in every country but follows similar principles everywhere.</p>
+
+  <h2>The key regulatory bodies</h2>
+  <div class="players-grid">
+    <div class="player-card">
+      <div class="player-name">FDA</div>
+      <div class="player-role">US Food &amp; Drug Administration. The most powerful regulator in the world. FDA approval essentially opens the US market — often the most lucrative globally.</div>
+      <div class="player-eg">USA · ~80,000 employees</div>
+    </div>
+    <div class="player-card amber-top">
+      <div class="player-name">EMA</div>
+      <div class="player-role">European Medicines Agency. Approves drugs for the EU. Works similarly to FDA but has different processes and sometimes different standards.</div>
+      <div class="player-eg">Europe · Amsterdam</div>
+    </div>
+    <div class="player-card coral-top">
+      <div class="player-name">PMDA / NMPA</div>
+      <div class="player-role">Japan and China's regulators respectively. Asia-Pacific markets increasingly important as populations grow.</div>
+      <div class="player-eg">Japan &amp; China</div>
+    </div>
+    <div class="player-card blue-top">
+      <div class="player-name">CDSCO</div>
+      <div class="player-role">India's Central Drugs Standard Control Organisation. India is one of the world's largest generic drug producers.</div>
+      <div class="player-eg">India</div>
+    </div>
+  </div>
+
+  <h2>What a submission actually is — the CTD</h2>
+  <p>To apply for approval, a pharma company submits the CTD — Common Technical Document. This is a standardized document format used by regulatory bodies worldwide. Think of it as the world's most consequential report.</p>
+
+  <div class="callout callout-teal">
+    <div class="callout-icon">📄</div>
+    <div class="callout-body">
+      <div class="callout-title">What's in a CTD</div>
+      <p><strong>Module 1:</strong> Administrative info (application forms, labeling, country-specific documents). <strong>Module 2:</strong> Summaries of everything — the key document regulators read first. <strong>Module 3:</strong> Full quality data — chemistry, manufacturing, how the drug is made. <strong>Module 4:</strong> All preclinical (animal) study reports. <strong>Module 5:</strong> All clinical trial reports — the full data from every trial. Every number in Module 2 must be accurately traceable back to Module 5. If they don't match, the submission fails.</p>
+    </div>
+  </div>
+
+  <p>A complete CTD can be 50,000–100,000 pages. Preparing it takes teams of regulatory affairs specialists 12–18 months. Reviewing it manually for consistency is where errors happen — and errors mean delays of months to years.</p>
+
+  <h2>What happens after submission</h2>
+  <div class="flow">
+    <div class="flow-step">
+      <div class="flow-num">1</div>
+      <div class="flow-body">
+        <div class="flow-label">Filing review</div>
+        <div class="flow-desc">Regulators check that the submission is complete. If anything is missing, they reject it immediately — called a "refuse to file." This alone can cost months.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">2</div>
+      <div class="flow-body">
+        <div class="flow-label">Scientific review</div>
+        <div class="flow-desc">Teams of medical officers, statisticians, and chemists review the data. Standard review takes 12 months. Priority review (for serious diseases) takes 6 months. FDA can ask questions (Information Requests) that the company must answer.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">3</div>
+      <div class="flow-body">
+        <div class="flow-label">Advisory committee</div>
+        <div class="flow-desc">For complex or controversial drugs, FDA convenes a panel of external experts to publicly debate and vote on the drug. The vote isn't binding but is influential.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">4</div>
+      <div class="flow-body">
+        <div class="flow-label">Approval &amp; label negotiation</div>
+        <div class="flow-desc">If approved, the FDA and company negotiate the drug label — the official document describing what the drug is approved for, the dose, warnings, and side effects. The label defines what doctors can be told about the drug.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="chapter-divider"><span>chapter 7</span></div>
+
+<!-- ═══════════════════════════ CH 7 ═══════════════════════════ -->
+<section class="section" id="ch7">
+  <div class="chapter-eyebrow">Chapter 7</div>
+  <h1 class="chapter-title">Manufacturing &amp; <em>supply chain</em></h1>
+  <p class="chapter-intro">Once a drug is approved, it needs to be made at massive scale and delivered reliably to patients around the world. This is the manufacturing and supply chain function — one of the most regulated operations on the planet.</p>
+
+  <h2>Two types of manufacturing</h2>
+  <div class="players-grid">
+    <div class="player-card">
+      <div class="player-name">Small molecule drugs</div>
+      <div class="player-role">Traditional chemistry-based drugs — tablets, capsules. Manufactured through chemical synthesis in large reactors. Relatively stable, can be shipped at room temperature. Examples: aspirin, statins, most HIV drugs.</div>
+    </div>
+    <div class="player-card coral-top">
+      <div class="player-name">Biologics</div>
+      <div class="player-role">Complex drugs made from living cells — proteins, antibodies, gene therapies. Far more difficult to manufacture (living cells are unpredictable), often require cold chain (refrigeration) throughout transport. Examples: insulin, cancer antibodies, mRNA vaccines.</div>
+    </div>
+  </div>
+
+  <h2>GMP — Good Manufacturing Practice</h2>
+  <p>Every drug manufacturing facility must comply with GMP — a set of regulations defining exactly how drugs must be made, tested, and stored. The goal is to ensure every batch of a drug is identical and uncontaminated.</p>
+
+  <div class="callout callout-amber">
+    <div class="callout-icon">⚠️</div>
+    <div class="callout-body">
+      <div class="callout-title">What GMP looks like in practice</div>
+      <p>Every action in a GMP facility must be documented. Every piece of equipment has a logbook. Every batch of drug goes through quality testing before it can be released. Workers wear full cleanroom gear. The air, surfaces, and water are all monitored for contamination. FDA inspects manufacturing facilities regularly — an inspection failure can shut a facility down and create drug shortages. In 2022, a single contaminated facility caused a US baby formula shortage that lasted months.</p>
+    </div>
+  </div>
+
+  <h2>Batch release</h2>
+  <p>Before any batch of a manufactured drug can be shipped, it must pass a formal "batch release" review — a quality assurance sign-off that the batch meets all specifications. Lab scientists test samples, QA reviews all manufacturing documentation, and a Qualified Person (in Europe) or equivalent signs off. If lab scientists can't access their LIMS system to log test results, batch release is delayed. This is why IT downtime at a pharma company is a much bigger deal than at a regular company.</p>
+
+  <h2>Cold chain logistics</h2>
+  <p>Biologics like insulin and mRNA vaccines must be kept within precise temperature ranges throughout their entire journey from factory to patient arm. Any temperature excursion — even a brief one — can degrade the drug and make it ineffective or dangerous. Managing cold chain logistics globally is one of pharma's most complex operational challenges.</p>
+</section>
+
+<div class="chapter-divider"><span>chapter 8</span></div>
+
+<!-- ═══════════════════════════ CH 8 ═══════════════════════════ -->
+<section class="section" id="ch8">
+  <div class="chapter-eyebrow">Chapter 8</div>
+  <h1 class="chapter-title">Sales &amp; <em>marketing</em> — getting doctors to prescribe</h1>
+  <p class="chapter-intro">Having an approved drug isn't enough. A company has to convince physicians to actually prescribe it. This is the commercial function — one of the largest, most expensive operations in pharma, and one of the most carefully regulated.</p>
+
+  <h2>How pharma commercialization actually works</h2>
+  <p>Unlike consumer products, drugs aren't marketed directly to the person who takes them (except in the US and New Zealand, where direct-to-consumer advertising is allowed). Drugs are marketed to the physicians who prescribe them and the payers (insurance companies) who cover them.</p>
+
+  <div class="flow">
+    <div class="flow-step">
+      <div class="flow-num">1</div>
+      <div class="flow-body">
+        <div class="flow-label">Pre-launch preparation (18–24 months before approval)</div>
+        <div class="flow-desc">Even before a drug is approved, commercial teams are preparing: training sales forces, creating educational materials, engaging KOLs, and planning the market access strategy. If they wait until approval day, they've already lost months.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">2</div>
+      <div class="flow-body">
+        <div class="flow-label">KOL engagement through Medical Affairs</div>
+        <div class="flow-desc">MSLs meet with top specialists (KOLs) in the disease area. These conversations are scientific — not promotional. MSLs present clinical data, answer medical questions, and gather insights. KOLs who are convinced by the science become advocates who influence their peers.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">3</div>
+      <div class="flow-body">
+        <div class="flow-label">Sales force detailing</div>
+        <div class="flow-desc">Sales reps visit GPs and specialists with marketing materials and samples. They can only discuss what is on the approved drug label — promoting off-label uses is illegal and heavily policed. A company can be fined billions for off-label promotion.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">4</div>
+      <div class="flow-body">
+        <div class="flow-label">Market access — getting insurance coverage</div>
+        <div class="flow-desc">Even if a doctor wants to prescribe a drug, a patient can only afford it if their insurance covers it. Market access teams negotiate with payers, building health-economic models that show the drug saves money in the long run (by preventing hospitalizations, etc.).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-blue">
+    <div class="callout-icon">📊</div>
+    <div class="callout-body">
+      <div class="callout-title">Why prescribing data matters so much</div>
+      <p>Pharma companies can buy anonymized prescription data from pharmacies and data companies (like IQVIA). This tells them which doctors are prescribing their drug, which are prescribing competitors, and in which geographies. Sales forces are deployed and evaluated based on these prescribing metrics. A sales rep's territory performance is measured by prescription volume — which is why they're so focused on seeing certain high-prescribing doctors.</p>
+    </div>
+  </div>
+</section>
+
+<div class="chapter-divider"><span>chapter 9</span></div>
+
+<!-- ═══════════════════════════ CH 9 ═══════════════════════════ -->
+<section class="section" id="ch9">
+  <div class="chapter-eyebrow">Chapter 9</div>
+  <h1 class="chapter-title">Medical affairs — <em>the scientific bridge</em></h1>
+  <p class="chapter-intro">Medical Affairs is the department that sits between science and commerce. They're not selling — they're educating. And they are the home of the MSL, one of the most important roles for your PharmaBridge idea.</p>
+
+  <h2>What Medical Affairs does</h2>
+  <p>The Medical Affairs function is responsible for all scientific communication between the company and the outside medical world. Everything communicated scientifically must be accurate, balanced, and compliant — they police this.</p>
+
+  <div class="players-grid">
+    <div class="player-card">
+      <div class="player-name">MSLs (Medical Science Liaisons)</div>
+      <div class="player-role">The field force of Medical Affairs. Have scientific or medical degrees. Meet with KOLs to share data and gather insights. Cannot promote the drug — they can only share scientific information. Report back to HQ with field intelligence.</div>
+    </div>
+    <div class="player-card amber-top">
+      <div class="player-name">Medical Information</div>
+      <div class="player-role">Answer detailed medical and scientific questions from healthcare providers. If a doctor calls and asks about an unusual drug interaction, this team researches and responds — with documented, compliant, scientifically accurate answers.</div>
+    </div>
+    <div class="player-card coral-top">
+      <div class="player-name">Publication &amp; evidence team</div>
+      <div class="player-role">Manage the company's scientific publications — journal articles, congress presentations, educational materials. Every claim must be backed by evidence and approved through a strict review process.</div>
+    </div>
+    <div class="player-card blue-top">
+      <div class="player-name">Medical Affairs directors</div>
+      <div class="player-role">Strategy and oversight. They synthesize what MSLs are learning in the field, identify gaps in medical evidence, and feed intelligence into R&amp;D, commercial, and regulatory teams.</div>
+    </div>
+  </div>
+
+  <h2>An MSL's day — in detail</h2>
+  <p>This is critical context for Module 1 of PharmaBridge. Understanding what an MSL actually does helps you understand why the problem your system solves is real and painful.</p>
+
+  <div class="callout callout-teal">
+    <div class="callout-icon">📅</div>
+    <div class="callout-body">
+      <div class="callout-title">A typical MSL day</div>
+      <p><strong>8:00am:</strong> Prepare for two KOL meetings. Review the doctor's recent publications, what they've previously discussed, and any new data released by the company this week. <strong>10:00am:</strong> Meet with Dr. Chen (oncologist) at the hospital. 45-minute scientific discussion — she has questions about the drug's efficacy data in elderly patients with two comorbidities, mentions she's seen a competitor's new trial results and wants to understand the differences. <strong>12:30pm:</strong> In the car. Needs to document this meeting in Veeva CRM. Types up notes while memory is fresh — takes 40 minutes. Not all insights make it in. <strong>2:00pm:</strong> Meet with Dr. Patel. He's a skeptic. He raises a concern about an adverse event he saw in one of his patients on the drug. This is important safety intelligence. 30 minutes documenting this one. <strong>5:00pm:</strong> Back-to-back emails. <strong>The insight about Dr. Patel's patient? It's in a CRM note that the medical director will never read.</strong></p>
+    </div>
+  </div>
+
+  <h2>What KOL intelligence actually looks like</h2>
+  <p>The insights MSLs gather fall into distinct categories. Understanding these categories is how your Module 1 does its classification:</p>
+
+  <div class="term-grid">
+    <div class="term-card"><div class="term-word">Unmet need</div><div class="term-def">"There's no good option for patients who have both condition X and condition Y." Tells R&amp;D what to develop next.</div></div>
+    <div class="term-card"><div class="term-word">Label question</div><div class="term-def">"The approved indication doesn't cover the patients I actually see." Tells regulatory and medical affairs what label extensions to pursue.</div></div>
+    <div class="term-card"><div class="term-word">Safety observation</div><div class="term-def">"I've seen two patients on this drug develop X side effect." Must be captured for pharmacovigilance — this could be a safety signal.</div></div>
+    <div class="term-card"><div class="term-word">Competitive insight</div><div class="term-def">"The new trial from Company X shows better data in this subpopulation." Tells commercial and R&amp;D what they're up against.</div></div>
+    <div class="term-card"><div class="term-word">Advocacy / endorsement</div><div class="term-def">"This KOL is now a believer — they're presenting our data at the next congress." Commercial and marketing need to know.</div></div>
+    <div class="term-card"><div class="term-word">Evidence gap</div><div class="term-def">"I'd need to see a longer follow-up study before I'm comfortable recommending this." R&amp;D and clinical teams need to plan future studies.</div></div>
+  </div>
+</section>
+
+<div class="chapter-divider"><span>chapter 10</span></div>
+
+<!-- ═══════════════════════════ CH 10 ═══════════════════════════ -->
+<section class="section" id="ch10">
+  <div class="chapter-eyebrow">Chapter 10</div>
+  <h1 class="chapter-title">Pharmacovigilance — <em>watching forever</em></h1>
+  <p class="chapter-intro">A drug's safety review doesn't end when it's approved. It continues for the drug's entire lifetime on the market. Pharmacovigilance is the science of monitoring drugs for unexpected safety issues after they reach the real world.</p>
+
+  <h2>Why post-market safety monitoring is critical</h2>
+  <p>Clinical trials include a few thousand patients, carefully selected, monitored for a defined period. But once a drug is approved, millions of patients take it — including elderly patients, patients with multiple diseases, patients on complex combinations of other drugs. Side effects that occur in 1 in 10,000 patients are essentially invisible in a trial but become apparent once millions are taking the drug.</p>
+
+  <div class="callout callout-coral">
+    <div class="callout-icon">⚠️</div>
+    <div class="callout-body">
+      <div class="callout-title">Famous examples of post-market safety signals</div>
+      <p><strong>Vioxx (Rofecoxib):</strong> Approved 1999. Withdrawn 2004 after post-market data showed it significantly increased risk of heart attack and stroke. ~27,000 heart attacks attributable to the drug before it was withdrawn. The signal existed in the data earlier but wasn't connected. <strong>Thalidomide:</strong> Given to pregnant women in the 1950s for morning sickness. Caused severe birth defects in thousands of children. Led to the creation of modern drug safety regulations. These disasters are why pharmacovigilance is mandatory and heavily funded.</p>
+    </div>
+  </div>
+
+  <h2>How PV actually works</h2>
+  <div class="flow">
+    <div class="flow-step">
+      <div class="flow-num">1</div>
+      <div class="flow-body">
+        <div class="flow-label">Case intake</div>
+        <div class="flow-desc">Adverse event reports come from multiple sources: patients who call the company directly, doctors who report to the FDA (in the US, this is MedWatch), spontaneous reports to the FDA's FAERS database, scientific publications, and social media. All must be collected.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">2</div>
+      <div class="flow-body">
+        <div class="flow-label">Case processing</div>
+        <div class="flow-desc">Each report is reviewed, coded using MedDRA terminology (a standardized medical vocabulary), and entered into a safety database. Serious cases must be reported to regulators within 15 days (in the US) or less.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">3</div>
+      <div class="flow-body">
+        <div class="flow-label">Signal detection</div>
+        <div class="flow-desc">Statistical methods are applied to detect disproportionality — are patients on Drug X experiencing Event Y more often than would be expected by chance? This is currently done through rule-based algorithms that catch obvious signals but miss subtle multi-drug interaction signals.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">4</div>
+      <div class="flow-body">
+        <div class="flow-label">Signal evaluation &amp; regulatory action</div>
+        <div class="flow-desc">Confirmed signals are evaluated for causality — did the drug actually cause this? If yes, the company must update the drug label, issue safety communications to physicians, or in serious cases, withdraw the drug from market.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="chapter-divider"><span>chapter 11</span></div>
+
+<!-- ═══════════════════════════ CH 11 ═══════════════════════════ -->
+<section class="section" id="ch11">
+  <div class="chapter-eyebrow">Chapter 11</div>
+  <h1 class="chapter-title">The patient <em>journey</em> — the other side of everything</h1>
+  <p class="chapter-intro">Every drug, every trial, every regulatory document ultimately exists for one reason: a patient who is sick and needs help. Understanding the patient's perspective — especially their relationship with their medication — is the foundation of Module 2 of PharmaBridge.</p>
+
+  <h2>From diagnosis to medication — what a patient goes through</h2>
+
+  <div class="flow">
+    <div class="flow-step">
+      <div class="flow-num">1</div>
+      <div class="flow-body">
+        <div class="flow-label">Symptom &amp; GP visit</div>
+        <div class="flow-desc">Patient notices something wrong. Visits their GP. May be referred to a specialist. This can take weeks to months, especially for complex or rare conditions. During this time, the patient is often anxious and without answers.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">2</div>
+      <div class="flow-body">
+        <div class="flow-label">Diagnosis</div>
+        <div class="flow-desc">A condition is identified. For common diseases (type 2 diabetes, hypertension), this is relatively quick. For rare diseases, the diagnostic journey averages 4–8 years and 7+ specialists.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">3</div>
+      <div class="flow-body">
+        <div class="flow-label">Treatment decision</div>
+        <div class="flow-desc">Doctor and patient decide on a treatment. For most chronic conditions, this means a long-term medication. The doctor explains the drug, the dose, and what to expect. Patient agrees (informed consent).</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">4</div>
+      <div class="flow-body">
+        <div class="flow-label">Initiating treatment</div>
+        <div class="flow-desc">Patient picks up prescription from pharmacy and starts taking the drug. This is the moment where all the R&amp;D, trials, and regulation meet reality. And this is where the adherence problem begins.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">5</div>
+      <div class="flow-body">
+        <div class="flow-label">Long-term adherence (or lack thereof)</div>
+        <div class="flow-desc">Roughly 50% of patients with chronic diseases do not take their medications consistently. This is one of the most expensive, most studied, and least solved problems in all of healthcare.</div>
+      </div>
+    </div>
+  </div>
+
+  <h2>Why patients don't take their medications — the real reasons</h2>
+  <p>This is the core insight that makes Module 2 of PharmaBridge valuable. Adherence programs have failed historically because they treat all non-adherers the same. They don't. Each patient has a specific, personal reason.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Barrier type</th><th>What it actually sounds like</th><th>What actually helps</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Cost</strong></td><td>"The co-pay is $300/month. I split the pills to make them last longer."</td><td>Patient assistance programs, generic alternatives, prescription discount cards</td></tr>
+        <tr><td><strong>Side effects</strong></td><td>"I feel worse when I take it. The fatigue is unbearable."</td><td>Dose adjustment, timing changes, managing specific side effects, clinician review</td></tr>
+        <tr><td><strong>Forgetfulness</strong></td><td>"I just forget. I'm busy. Some days I take two because I forgot the day before."</td><td>Reminders, pill organizers, routine anchoring (take with morning coffee)</td></tr>
+        <tr><td><strong>Beliefs</strong></td><td>"I feel fine now. I don't think I need it anymore." OR "I don't believe in long-term medication."</td><td>Motivational interviewing, education about what the drug is doing even when you feel fine</td></tr>
+        <tr><td><strong>Complexity</strong></td><td>"I'm on 7 different medications. I can't keep track of them all."</td><td>Medication reconciliation, pill packs, simplified regimens</td></tr>
+        <tr><td><strong>Access</strong></td><td>"The pharmacy is far and I don't drive. By the time I could get there, I've already missed doses."</td><td>Mail-order pharmacy, delivery services, pharmacy benefits review</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout callout-teal">
+    <div class="callout-icon">💡</div>
+    <div class="callout-body">
+      <div class="callout-title">The $300 billion number — where it comes from</div>
+      <p>The New England Healthcare Institute estimates that medication non-adherence causes 125,000 deaths and costs the US healthcare system $290–$300 billion annually in avoidable hospitalizations, emergency room visits, and disease progression. For a single disease like diabetes, a patient who stops taking their medication for 3 months may require a $20,000 hospitalization that proper adherence would have prevented. Multiply this by millions of patients and hundreds of chronic conditions. This is why healthcare systems, insurers, and pharma companies all have strong incentives to solve this.</p>
+    </div>
+  </div>
+</section>
+
+<div class="chapter-divider"><span>chapter 12</span></div>
+
+<!-- ═══════════════════════════ CH 12 ═══════════════════════════ -->
+<section class="section" id="ch12">
+  <div class="chapter-eyebrow">Chapter 12</div>
+  <h1 class="chapter-title">IT &amp; <em>enterprise systems</em> — your world</h1>
+  <p class="chapter-intro">Every function described in the previous chapters runs on software. Understanding these systems is your home territory — it's what you work with at Gilead every day. Here's how the enterprise IT landscape of a pharma company like Gilead actually looks.</p>
+
+  <h2>The core systems in a pharma company</h2>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>System</th><th>What it does</th><th>Used by</th><th>Why downtime is serious</th></tr></thead>
+      <tbody>
+        <tr><td><strong>LIMS</strong><br><span style="font-size:11px;color:var(--ink4)">Lab Information Management</span></td><td>Tracks laboratory samples, experiments, and results</td><td>Research scientists, QA</td><td>Lab work stops. Batch release delays. Regulatory timelines slip.</td></tr>
+        <tr><td><strong>ELN</strong><br><span style="font-size:11px;color:var(--ink4)">Electronic Lab Notebook</span></td><td>Digital documentation of all experiments</td><td>Research scientists</td><td>Experiment data can't be recorded — compliance risk.</td></tr>
+        <tr><td><strong>EDC</strong><br><span style="font-size:11px;color:var(--ink4)">Electronic Data Capture</span></td><td>Clinical trial data entry at trial sites</td><td>Trial site staff, CRAs</td><td>Trial data can't be entered. Protocol deviations.</td></tr>
+        <tr><td><strong>Veeva Vault</strong></td><td>Document management for regulatory, clinical, and quality documents</td><td>Regulatory, clinical, QA</td><td>Regulatory submissions blocked. Approvals delayed.</td></tr>
+        <tr><td><strong>Veeva CRM</strong></td><td>Customer relationship management for MSLs and sales reps</td><td>MSLs, sales reps</td><td>Field intelligence not recorded. Compliance gaps.</td></tr>
+        <tr><td><strong>ServiceNow</strong></td><td>IT service management — tickets, incidents, changes, requests</td><td>IT teams, all employees</td><td>IT issues not tracked. SLA breaches. Compliance gaps.</td></tr>
+        <tr><td><strong>SAP / Oracle</strong></td><td>ERP — financial, HR, procurement, supply chain management</td><td>Finance, HR, operations</td><td>Payroll fails. Procurement stops. Supply chain blind.</td></tr>
+        <tr><td><strong>Safety databases</strong><br><span style="font-size:11px;color:var(--ink4)">Argus, Veeva Vault Safety</span></td><td>Pharmacovigilance case management</td><td>PV teams</td><td>Adverse event reports not processed. Regulatory reporting deadlines missed.</td></tr>
+        <tr><td><strong>Active Directory</strong></td><td>Identity management — user accounts, passwords, access permissions</td><td>Everyone</td><td>Locked out users can't access any system. Cascading impact across all functions.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>GxP — why pharma IT is different from normal IT</h2>
+  <p>In most industries, if software goes down, it's an inconvenience. In pharma, certain software systems are GxP-regulated — meaning they touch data that could affect patient safety or drug quality. These systems must meet FDA standards for computer systems validation, audit trails, and data integrity.</p>
+
+  <div class="term-grid">
+    <div class="term-card"><div class="term-word">GxP</div><div class="term-def">"Good X Practice." Covers GMP (manufacturing), GCP (clinical), GLP (laboratory). All require validated, auditable IT systems.</div></div>
+    <div class="term-card"><div class="term-word">21 CFR Part 11</div><div class="term-def">FDA regulation requiring electronic records and signatures in pharma to be fully trustworthy, reliable, and auditable. Every system action must be logged.</div></div>
+    <div class="term-card"><div class="term-word">CSV (Computer System Validation)</div><div class="term-def">The process of proving that a software system does exactly what it's supposed to do, consistently. Required before any GxP system goes live.</div></div>
+    <div class="term-card"><div class="term-word">Audit trail</div><div class="term-def">A timestamped record of every action taken on a system — who did what, when, what was changed. Legally required in GxP systems. Inspected by FDA during audits.</div></div>
+  </div>
+
+  <div class="callout callout-blue">
+    <div class="callout-icon">💻</div>
+    <div class="callout-body">
+      <div class="callout-title">Why your L1 role matters more than you think</div>
+      <p>When a researcher is locked out of their LIMS system at 9am, they can't run that morning's batch of assays. If that batch was scheduled to feed data into an ongoing clinical trial, the delay can cascade. When an MSL can't access Veeva CRM, their KOL meeting insights aren't recorded — regulatory compliance and field intelligence both suffer. A pharmacovigilance officer who can't access the safety database may miss a 15-day reporting deadline — a regulatory violation. Your L1 role sits at the intersection of all of this. Every issue you resolve quickly has a downstream impact on patient outcomes.</p>
+    </div>
+  </div>
+</section>
+
+<div class="chapter-divider"><span>chapter 13</span></div>
+
+<!-- ═══════════════════════════ CH 13 ═══════════════════════════ -->
+<section class="section" id="ch13">
+  <div class="chapter-eyebrow">Chapter 13</div>
+  <h1 class="chapter-title">Regulation &amp; <em>compliance</em> — why everything is documented</h1>
+  <p class="chapter-intro">If there's one thing that defines working in pharma, it's documentation. Everything is written down, reviewed, approved, and archived. This isn't bureaucratic culture — it's legally mandated. Here's why.</p>
+
+  <h2>The logic of pharmaceutical regulation</h2>
+  <p>Pharmaceutical regulation was built incrementally, each major rule triggered by a disaster that proved self-regulation wasn't enough. Today's regulatory framework is essentially a system designed so that every decision that could affect a patient's safety is documented, traceable, and reviewable after the fact.</p>
+
+  <div class="callout callout-amber">
+    <div class="callout-icon">📜</div>
+    <div class="callout-body">
+      <div class="callout-title">The chain of accountability</div>
+      <p>If a patient is harmed by a drug, regulators must be able to trace backwards: which batch of drug did they receive → which manufacturing process produced that batch → who signed off on quality → what data did they rely on → was that data accurate → who entered it and when? If any link in that chain is undocumented, the entire system fails. This is why every action in a GxP environment must be logged, timestamped, and attributable to a named individual. It's not distrust of employees — it's accountability architecture for when things go wrong.</p>
+    </div>
+  </div>
+
+  <h2>What "validated" means in pharma IT</h2>
+  <p>When a new software system is deployed in a pharma environment, it must go through Computer System Validation (CSV) — a formal process that proves the system does exactly what it's supposed to do. Only after validation can data entered into that system be trusted for regulatory purposes. This is why pharma IT moves slower than normal enterprise IT — every system change must be validated before going live.</p>
+
+  <h2>What an FDA inspection looks like</h2>
+  <p>FDA inspectors can show up at a manufacturing facility or research site with relatively short notice. They will ask to see documentation for everything — manufacturing records, audit trails, deviation reports, training records, equipment maintenance logs. If documentation is missing, incomplete, or inconsistent, it's a finding — which can result in warning letters, import bans, and in serious cases, facility shutdown. This is the ultimate reason why documentation culture is absolute in pharma.</p>
+</section>
+
+<div class="chapter-divider"><span>chapter 14</span></div>
+
+<!-- ═══════════════════════════ CH 14 ═══════════════════════════ -->
+<section class="section" id="ch14">
+  <div class="chapter-eyebrow">Chapter 14</div>
+  <h1 class="chapter-title">Where <em>AI fits</em> in this world</h1>
+  <p class="chapter-intro">Now that you understand how the pharma world actually works, you can see exactly where AI creates value — and why the industry has been slow to adopt it. The same regulatory caution that governs everything else applies to AI too.</p>
+
+  <h2>Why pharma has been slow to adopt AI</h2>
+  <p>AI in pharma is not slow because the industry doesn't see the value. It's slow because:</p>
+  <div class="flow">
+    <div class="flow-step">
+      <div class="flow-num">1</div>
+      <div class="flow-body">
+        <div class="flow-label">Validation requirements</div>
+        <div class="flow-desc">Any AI system that generates data used in a regulatory decision must be validated. This is expensive, time-consuming, and requires the AI to be explainable — not a black box.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">2</div>
+      <div class="flow-body">
+        <div class="flow-label">Data privacy and security</div>
+        <div class="flow-desc">Patient data, clinical trial data, and drug formulations are among the most sensitive and valuable data in the world. Any AI system handling this data must meet extremely high security and privacy standards.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">3</div>
+      <div class="flow-body">
+        <div class="flow-label">Risk aversion culture</div>
+        <div class="flow-desc">When the cost of a mistake is measured in human lives and billion-dollar fines, organizations become conservative. AI's occasional errors are acceptable in consumer applications — in pharma, "sometimes wrong" is a serious problem.</div>
+      </div>
+    </div>
+  </div>
+
+  <h2>Where AI is actually being used — today</h2>
+  <div class="term-grid">
+    <div class="term-card"><div class="term-word">Drug discovery</div><div class="term-def">AI models predict which molecules will bind to a target, cutting early discovery from years to months. AlphaFold predicts protein structures. Insilico Medicine used AI to design a novel drug candidate in 46 days.</div></div>
+    <div class="term-card"><div class="term-word">Clinical trial optimization</div><div class="term-def">AI matches patients to trials based on EHR data. Early AI tools predict which trial sites will underperform. Recruitment prediction saves months and millions.</div></div>
+    <div class="term-card"><div class="term-word">Regulatory writing</div><div class="term-def">AI drafts sections of CTD submissions from structured data. Saves weeks of writing time. Still requires human review for accuracy.</div></div>
+    <div class="term-card"><div class="term-word">Pharmacovigilance</div><div class="term-def">NLP models read case reports and extract adverse events automatically. Signal detection algorithms process data faster than manual review. Still rule-based, not fully agentic.</div></div>
+    <div class="term-card"><div class="term-word">Medical information</div><div class="term-def">AI chatbots answer common medical information questions, routing complex ones to humans. Reduces response time for standard queries.</div></div>
+    <div class="term-card"><div class="term-word">Commercial analytics</div><div class="term-def">AI predicts which physicians are likely to be receptive to a drug, optimizing sales force deployment. Next best action models for CRM.</div></div>
+  </div>
+
+  <div class="callout callout-teal">
+    <div class="callout-icon">🎯</div>
+    <div class="callout-body">
+      <div class="callout-title">The whitespace — what AI isn't doing yet</div>
+      <p>Despite all these use cases, <strong>nobody has built a system that connects what medical field teams learn from doctors with what patient support systems learn from patients</strong>. The two intelligence streams are completely siloed. KOL insights stay in CRM notes. Patient adherence data stays in patient support programs. Nobody synthesizes them together. This is the gap that PharmaBridge fills — and why it's genuinely novel.</p>
+    </div>
+  </div>
+</section>
+
+<div class="chapter-divider"><span>chapter 15</span></div>
+
+<!-- ═══════════════════════════ CH 15 ═══════════════════════════ -->
+<section class="section" id="ch15">
+  <div class="chapter-eyebrow">Chapter 15 · Connecting the dots</div>
+  <h1 class="chapter-title"><em>PharmaBridge</em> — now you can see why it matters</h1>
+  <p class="chapter-intro">You've now read about every part of the pharma world. Let's connect all of it back to PharmaBridge and show why every design decision in the system makes sense given everything you've just learned.</p>
+
+  <div class="bridge-box">
+    <h3>The full picture — in one paragraph</h3>
+    <p>A pharma company like Gilead has MSLs meeting with oncologists every week. Those oncologists are noticing that patients on Drug X keep mentioning fatigue and stopping their medication. The MSL captures this in a Veeva CRM note. Nobody reads it. Simultaneously, thousands of patients on Drug X are quietly stopping their medication because of fatigue — telling nobody, costing $300B annually in avoidable health outcomes. PharmaBridge captures the MSL's insight through a 2-minute voice debrief (Module 1), captures the patient's experience through a daily adaptive voice check-in (Module 2), and synthesizes both signals in a unified intelligence layer that shows Medical Affairs: <em>"KOLs in 3 regions are flagging fatigue. Patient adherence data shows a 34% drop-off correlated with fatigue complaints. This is a real signal about Drug X — here's the evidence."</em> That intelligence is actionable. It changes what the company does next.</p>
+  </div>
+
+  <h2>Why every PharmaBridge feature exists</h2>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>PharmaBridge feature</th><th>Chapter that explains why it exists</th><th>The specific pain it solves</th></tr></thead>
+      <tbody>
+        <tr><td>Voice-first MSL debrief</td><td>Chapter 9</td><td>MSLs spend 40–45 min on CRM entry. Most insights never get in. Voice reduces friction to 2 minutes.</td></tr>
+        <tr><td>Insight classification (label question, safety, competitive)</td><td>Chapter 9</td><td>Different insight types go to different teams. Without classification, everything piles up and nothing gets routed.</td></tr>
+        <tr><td>KOL sentiment trend over time</td><td>Chapters 8 &amp; 9</td><td>A KOL becoming skeptical of a drug over 3 months is a commercial and scientific signal. Nobody is currently tracking sentiment longitudinally.</td></tr>
+        <tr><td>Safety observation routing to PV</td><td>Chapter 10</td><td>An MSL hearing about an adverse event in a KOL's patient is a pharmacovigilance data point. It must reach PV within regulatory timelines.</td></tr>
+        <tr><td>Daily adaptive patient check-in</td><td>Chapter 11</td><td>50% adherence rate. Reminder apps don't work. The problem is understanding why, not just nudging people harder.</td></tr>
+        <tr><td>Barrier classification engine</td><td>Chapter 11</td><td>Cost vs. side effects vs. forgetfulness require entirely different interventions. One-size-fits-all fails.</td></tr>
+        <tr><td>Adaptive strategy switching</td><td>Chapter 11</td><td>A patient who can't afford the drug needs a different conversation than one who feels fine and thinks they don't need it anymore.</td></tr>
+        <tr><td>Care team weekly digest</td><td>Chapters 11 &amp; 12</td><td>Physicians don't have time to check dashboards. A structured weekly digest surfaces the 2 patients who need attention now.</td></tr>
+        <tr><td>Cross-signal synthesis (the bridge)</td><td>Chapters 9, 10, 11</td><td>KOL intelligence and patient intelligence have never been connected. The convergent signal is invisible to both sources alone.</td></tr>
+        <tr><td>Auto-generated intelligence brief</td><td>Chapters 8, 9</td><td>Medical Affairs directors currently pay analyst teams weeks to produce what PharmaBridge generates automatically.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>What you can now say to judges that most people can't</h2>
+
+  <div class="callout callout-teal">
+    <div class="callout-icon">🏆</div>
+    <div class="callout-body">
+      <div class="callout-title">Your credibility statement</div>
+      <p>Most people who build hackathon projects for pharma don't work in pharma. You do. You work at an ESD for Gilead — a top-5 pharmaceutical company. You understand that a researcher locked out of LIMS isn't just annoyed — batch release may be delayed. You understand that an MSL's CRM note isn't just a database entry — it might contain a pharmacovigilance signal. You understand that a patient who stops their HIV medication "because they feel fine" isn't making a rational choice — they're experiencing a belief-based adherence barrier with a specific intervention that helps. You built PharmaBridge knowing all of this. That's not something a general AI developer can fake in a hackathon presentation.</p>
+    </div>
+  </div>
+
+  <h2>The one-line pitch — now with full context behind it</h2>
+  <div class="quote-block">
+    <div class="quote-text">"For the first time, a pharma company can hear both what their doctors are observing in the field and what their patients are experiencing at home — simultaneously, in real time, without either party knowing the other was asked."</div>
+    <div class="quote-attr">PharmaBridge · Closing the loop between field intelligence and patient reality</div>
+  </div>
+
+  <p style="margin-top:2rem;">You now know this industry. You understand the MSL's 40-minute CRM pain. You know why a safety observation from a KOL has to reach PV within regulatory timelines. You know that medication non-adherence kills 125,000 Americans every year. You know what a CTD is, why protocol deviations matter, and why pharma IT downtime has patient safety implications. That knowledge is your unfair advantage. Now let's build.</p>
+</section>
+
+</main>
+</div>
+
+<script>
+const sections = document.querySelectorAll('section[id]');
+const navItems = document.querySelectorAll('.nav-item');
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navItems.forEach(n => n.classList.remove('active'));
+      const active = document.querySelector(`.nav-item[href="#${e.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
